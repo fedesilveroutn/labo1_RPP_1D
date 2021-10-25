@@ -33,7 +33,7 @@ int menu (sEstadia listaEstadias[], int tamEstadias , sPerro listaPerros[] , int
 	int flagDuenio;
 	int flagEstadias;
 
-
+	float edadPromedio;
 
 
 
@@ -44,7 +44,7 @@ int menu (sEstadia listaEstadias[], int tamEstadias , sPerro listaPerros[] , int
 	//int idModificacion;
 	//int posicion;
 	//int cancelacion;
-	//float edadPromedio;
+
 
 	//int posPerroConMasEstadias;
 
@@ -186,6 +186,8 @@ int menu (sEstadia listaEstadias[], int tamEstadias , sPerro listaPerros[] , int
 
 
 
+
+			//PARA LISTAR ESTADIAS
 			case 4:
 
 				if(flagEstadias == 1 )
@@ -201,16 +203,64 @@ int menu (sEstadia listaEstadias[], int tamEstadias , sPerro listaPerros[] , int
 				}
 
 				break;
+
+
+
+			//PARA LISTAR PERROS
+			case 5:
+				if (contadorPerros > 0)
+				{
+					printf("\nListado de perros: ");
+					perro_mostrarTodos(listaPerros, tamPerros);
+					systemPause("\nPresione una tecla para continuar...\n");
+				}
+				else
+				{
+					printf("\nError. Debe cargar al menos un perro para poder mostrarlo\n");
+					systemPause("\nPresione una tecla para continuar...\n");
+				}
+
+				break;
+
+
+
+
+			//PARA EL PROMEDIO DE EDAD DE LOS PERROS
+			case 6:
+				if (contadorPerros > 1)
+				{
+					edadPromedio = perro_edadPromedio(listaPerros, tamPerros, contadorPerros);
+					printf("\nLa edad promedio de los perros cargados es: %.2f\n", edadPromedio);
+					systemPause("\nPresione una tecla para continuar...\n");
+				}
+				else
+				{
+					printf("\nError. Debe cargar al menos dos perros para poder calcular el promedio\n");
+					systemPause("\nPresione una tecla para continuar...\n");
+				}
+
+				break;
+
+
+
+
+			case 8:
+
+				if (flagEstadias == 1 && contadorPerros > 0)
+				{
+					//Listado de perros con sus estadías diarias reservadas.
+					nexo_mostrarPerrosConEstadias (listaPerros, tamPerros, listaEstadias ,  tamEstadias);
+					systemPause("\nPresione una tecla para continuar...\n");
+				}
+
+				else
+				{
+					printf("Error. No se pueden mostrar los perros con sus estadías sin haber cargado los datos previamente");
+					systemPause("\nPresione una tecla para continuar...\n");
+				}
+
+				break;
 			}
-
-
-
-
-
-
-
-
-
 
 
 
@@ -357,33 +407,10 @@ int menu (sEstadia listaEstadias[], int tamEstadias , sPerro listaPerros[] , int
 
 
 
-			/*case 5:
-					if (contadorPerros > 0)
-					{
-					perro_mostrarTodos(listaPerros, tamPerros);
-					system("pause");
-					}
-					else
-					{
-						printf("\nError. Debe cargar al menos un perro para poder mostrarlo\n");
-					}
-
-					break;
+			/*
 
 
-			case 6:
-					if (contadorPerros > 1)
-					{
-						edadPromedio = perro_edadPromedio(listaPerros, tamPerros, contadorPerros);
-						printf("\nLa edad promedio de los perros cargados es: %.2f\n", edadPromedio);
-						system("pause");
-					}
-					else
-					{
-						printf("\nError. Debe cargar al menos dos perros para poder calcular el promedio\n");
-					}
 
-					break;
 
 
 
@@ -411,19 +438,7 @@ int menu (sEstadia listaEstadias[], int tamEstadias , sPerro listaPerros[] , int
 
 
 
-			case 8:
-					if (flagEstadias == 1 && contadorPerros > 0)
-					{
-						//Listado de perros con sus estadías diarias reservadas.
-						nexo_mostrarPerrosConEstadias (listaPerros, tamPerros, listaEstadias ,  tamEstadias);
-					}
 
-					else
-					{
-						printf("Error. No se pueden mostrar los perros con sus estadías sin haber cargado los datos previamente");
-					}
-
-					break;
 
 
 			case 9:

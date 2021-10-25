@@ -4,7 +4,7 @@
 #include "nexo.h"
 
 
-
+/*
 void nexo_mostrarPerrosConEstadias (sPerro listaPerros[] , int tamPerros, sEstadia reservas[] ,  int tamReservas)
 {
 	int i;
@@ -28,7 +28,7 @@ void nexo_mostrarPerrosConEstadias (sPerro listaPerros[] , int tamPerros, sEstad
 			}
 		}
 	}
-}
+}*/
 
 
 
@@ -78,10 +78,39 @@ void nexo_mostrarEstadiasCompletas (sEstadia reservas[], int tamEstadias, sPerro
 				posicionPerro = perro_buscarCoincidenciaId(listaPerros, tamPerros, reservas[i].idPerro);
 				posicionDuenio = duenio_buscarCoincidenciaId(listaDuenios, tamDuenios, reservas[i].idDuenio);
 
-				printf( "%-15d %-15s %-15s %-15d %-15d %-20s %-20d %-20d %-2d/%-2d/%-2d" ,
+				printf( "%-15d %-15s %-15s %-15d %-15d %-20s %-20d %-20d %-2d/%-2d/%-2d\n" ,
 						listaPerros[posicionPerro].id, listaPerros[posicionPerro].nombre, listaPerros[posicionPerro].raza, listaPerros[posicionPerro].edad,
 						listaDuenios[posicionDuenio].id, listaDuenios[posicionDuenio].nombre, listaDuenios[posicionDuenio].telefono,
 						reservas[i].id, reservas[i].fecha.dia, reservas[i].fecha.mes, reservas[i].fecha.anio);
+			}
+		}
+	}
+}
+
+
+
+void nexo_mostrarPerrosConEstadias (sPerro listaPerros[], int tamPerros, sEstadia listaEstadias[], int tamEstadias)
+{
+	int i;
+	int j;
+
+	if (listaPerros != NULL && listaEstadias != NULL)
+	{
+		for (i = 0; i < tamPerros; i++)
+		{
+			if (listaPerros[i].estado == 1)
+			{
+				printf( "\n***************************************"
+						"\n%s cuenta con las siguientes reservas:\n"
+						, listaPerros[i].nombre);
+
+				for (j = 0; j < tamEstadias; j++)
+				{
+					if (listaEstadias[j].estado == 1 && listaPerros[i].id == listaEstadias[j].idPerro)
+					{
+						printf("\n%d/%d/%d", listaEstadias[j].fecha.dia, listaEstadias[j].fecha.mes, listaEstadias[j].fecha.anio );
+					}
+				}
 			}
 		}
 	}

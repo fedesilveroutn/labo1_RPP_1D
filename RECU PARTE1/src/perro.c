@@ -433,6 +433,7 @@ void perro_mostrarTodos (sPerro lista[] , int tamPerros)
 				perro_mostrar(lista[i]);
 			}
 		}
+		printf("\n----------------------------------------------------------------------------------------\n");
 	}
 }
 
