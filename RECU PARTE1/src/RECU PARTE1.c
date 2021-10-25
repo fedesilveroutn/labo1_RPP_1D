@@ -28,6 +28,7 @@ int main(void) {
 	sEstadia reservas [TAM];
 
 	menu (reservas , TAM , perros, TAM , duenios, TAM , IDESTADIA , IDPERRO , IDDUENIO );
+	printf("\nFin del programa.");
 
 	return 0;
 }

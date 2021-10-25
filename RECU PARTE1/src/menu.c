@@ -45,9 +45,8 @@ int menu (sEstadia listaEstadias[], int tamEstadias , sPerro listaPerros[] , int
 	int posNuevoIdPerro;
 	int respuestaNuevoPerro;
 	sPerro auxNuevoPerro;
-
-
-	//int posPerroConMasEstadias;
+	int posPerroConMasEstadias;
+	int posPerroAnterior;
 
 	if (listaEstadias != NULL && listaPerros != NULL && listaDuenios != NULL)
 	{
@@ -248,13 +247,17 @@ int menu (sEstadia listaEstadias[], int tamEstadias , sPerro listaPerros[] , int
 											perro_mostrarTodos(listaPerros, tamPerros);
 											getInt(&nuevoIdPerro, "\nIngrese el ID DEL PERRO que quiere asociar a la estadía: ",
 																  "\nError. Reingrese un ID PERRO válido: ", 7000 , 10000);
+
+											posPerroAnterior = perro_buscarCoincidenciaId(listaPerros, tamPerros, listaEstadias[posicion].idPerro);
 											posNuevoIdPerro = perro_buscarCoincidenciaId(listaPerros, tamPerros, nuevoIdPerro);
 											auxNuevoPerro = listaPerros[posNuevoIdPerro];
 											respuestaNuevoPerro =  perro_verificar(auxNuevoPerro);
 
 											if (respuestaNuevoPerro == 1)
 											{
+												listaPerros[posPerroAnterior].contadorEstadia -= 1;
 												listaEstadias[posicion].idPerro = nuevoIdPerro;
+												listaPerros[posNuevoIdPerro].contadorEstadia += 1;
 												printf("\nHa modificado el PERRO exitosamente!\n");
 												systemPause("\nPresione una tecla para continuar...\n");
 											}
@@ -388,6 +391,26 @@ int menu (sEstadia listaEstadias[], int tamEstadias , sPerro listaPerros[] , int
 
 				break;
 
+			case 7:
+
+				if (flagEstadias == 1 && contadorPerros > 0 && contadorEstadias > 0)
+				{
+
+					//Perro que tiene más estadias reservadas
+					posPerroConMasEstadias = perro_encontrarMayorCantidadEstadias (listaPerros, tamPerros);
+					printf("El perro que más estadías tiene es...\n");
+					perro_mostrar(listaPerros[posPerroConMasEstadias]);
+					systemPause("\nPresione una tecla para continuar...\n");
+				}
+
+				else
+				{
+					printf("\nError. No se puede calcular el perro con más estadías porque debe haber por lo menos un perro y una estadía cargada");
+					systemPause("\nPresione una tecla para continuar...\n");
+				}
+
+				break;
+
 
 
 			//PARA LISTAR PERROS CON SUS ESTADIAS DIARIAS RESERVADAS
@@ -407,65 +430,12 @@ int menu (sEstadia listaEstadias[], int tamEstadias , sPerro listaPerros[] , int
 				}
 
 				break;
-			}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			/*
-
-
-
-
-
-
-
-
-			case 7:
-					if (flagEstadias == 1 && contadorPerros > 0)
-					{
-
-						//Perro que tiene más estadias reservadas
-						posPerroConMasEstadias = perro_encontrarMayorCantidadEstadias (listaPerros, tamPerros);
-						printf("El perro que más estadías tiene es...\n");
-						perro_mostrar(listaPerros[posPerroConMasEstadias]);
-						system("pause");
-					}
-
-					else
-					{
-						printf("\nError. No se puede calcular el perro con más estadías porque debe haber por lo menos un perro y una estadía cargada");
-						system("pause");
-					}
-
-
-					break;
-
-
-
-
-
 
 			case 9:
 					printf("\nSaliendo...\n");
 					break;
 
-			}*/
+			}
 
 		}while (opcion != 9);
 	}

@@ -332,7 +332,7 @@ int estadia_reservar (sEstadia reserva[] , int tam , int ultimoId , sPerro lista
 				index = estadia_buscarLugar (reserva , tam);
 				reserva[index] = aux;
 				reserva[index].estado = 1;
-				listaPerros[index].contadorEstadias++;
+				listaPerros[index].contadorEstadia++;
 
 				ultimoId++;
 				ret = ultimoId;
@@ -409,6 +409,7 @@ int estadia_cancelar (sPerro perros[], int tamPerros, sEstadia reserva[], int ta
 {
 	int ret = -1;
 	int pos;
+	int posPerro;
 	int confirmacion;
 
 	if (reserva != NULL && perros!= NULL && listaDuenios != NULL)
@@ -421,7 +422,9 @@ int estadia_cancelar (sPerro perros[], int tamPerros, sEstadia reserva[], int ta
 			confirmacion = estadia_verificar (reserva[pos], perros[pos], listaDuenios[pos]);
 			if (confirmacion == 1)
 			{
+				posPerro = perro_buscarCoincidenciaId(perros, tamPerros, reserva[pos].idPerro);
 				reserva[pos].estado = 0;
+				perros[posPerro].contadorEstadia -= 1;
 				ret = 0;
 			}
 			else

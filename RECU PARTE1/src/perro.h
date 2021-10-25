@@ -14,7 +14,7 @@ typedef struct
 	char raza[21];
 	int edad;
 	int estado;
-	int contadorEstadias;
+	int contadorEstadia;
 
 } sPerro;
 

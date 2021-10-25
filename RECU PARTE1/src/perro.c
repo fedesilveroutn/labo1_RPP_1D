@@ -269,6 +269,7 @@ int perro_cargar (sPerro lista[] , int tam , int ultimoIdPerro)
 				//asigno en la posicion index de mi lista de perros, lo que tenía guardado en auxiliar y cambio el estado a ocupado
 				lista[index] = aux;
 				lista[index].estado = 1;
+				lista[index].contadorEstadia += 1;
 
 				//como ya se cargó el perro, aumento el ultimo ID de perro
 				ultimoIdPerro++;
@@ -482,9 +483,9 @@ int perro_encontrarMayorCantidadEstadias (sPerro listaPerros[], int tamPerros)
 
 	for (i = 0; i < tamPerros; i++)
 	{
-		if (flag == 0 || listaPerros[i].contadorEstadias > max)
+		if (flag == 0 || listaPerros[i].contadorEstadia > max)
 		{
-			max = listaPerros[i].contadorEstadias;
+			max = listaPerros[i].contadorEstadia;
 			pos = i;
 			flag = 1;
 		}
