@@ -27,7 +27,7 @@ int menu (sEstadia listaEstadias[], int tamEstadias , sPerro listaPerros[] , int
 	int contadorDuenios = 5; //inicializo en 5 porque había hardcodeado
 
 	int auxUltimoIdEstadia;
-	int contadorEstadias;
+	int contadorEstadias = 0;
 
 	int flagPerro;
 	int flagDuenio;
@@ -35,15 +35,16 @@ int menu (sEstadia listaEstadias[], int tamEstadias , sPerro listaPerros[] , int
 
 	float edadPromedio;
 
+	int idSearch;
+	int cancelacion;
 
-
-	//int opcionSubMenu;
-	//
-	//int auxNuevoTelefono;
-	//int idSearch;
-	//int idModificacion;
-	//int posicion;
-	//int cancelacion;
+	int posicion;
+	int opcionSubMenu;
+	int auxNuevoTelefono;
+	int nuevoIdPerro;
+	int posNuevoIdPerro;
+	int respuestaNuevoPerro;
+	sPerro auxNuevoPerro;
 
 
 	//int posPerroConMasEstadias;
@@ -89,9 +90,6 @@ int menu (sEstadia listaEstadias[], int tamEstadias , sPerro listaPerros[] , int
 					"\n9. SALIR"
 					"\n-------------------------------------------\n"
 					"Reingrese una opcion válida (1-9): ", 1 , 9);
-
-
-
 
 
 
@@ -187,10 +185,159 @@ int menu (sEstadia listaEstadias[], int tamEstadias , sPerro listaPerros[] , int
 
 
 
+			//PARA MODIFICAR UNA ESTADIA
+			case 2:
+
+				if (flagEstadias == 1 && contadorEstadias > 0)
+				{
+					printf("\nModificando la estadía...\n");
+					nexo_mostrarEstadiasCompletas(listaEstadias, tamEstadias, listaPerros, tamPerros, listaDuenios, tamDuenios);
+					getInt(&idSearch, "\nIngrese el ID de la ESTADIA a modificar: ", "Error. Reingrese un ID ESTADIA válido: ", 100000, 199999);
+					while ( estadia_buscarExistenciaId (listaEstadias , tamEstadias , idSearch) == -1)
+					{
+						getInt(&idSearch, "\nIngrese el ID de la ESTADIA a modificar: ", "Error. Reingrese un ID ESTADIA válido: ", 100000, 199999);
+					}
+
+					posicion = estadia_buscarCoincidenciaId2 (listaEstadias , tamEstadias, idSearch);
+					if (posicion != -1)
+					{
+						do
+						{
+							getInt (&opcionSubMenu,
+												"\nMENU DE MODIFICACIONES"
+												"\n--------------------------\n"
+												"\n1. TELEFONO DE CONTACTO"
+												"\n2. PERRO"
+												"\n3. SALIR"
+												"\n--------------------------\n"
+												"Ingrese una opción (1-3): ",
+												"\n--------------------------\n"
+												"\n1. TELEFONO DE CONTACTO"
+												"\n2. PERRO"
+												"\n3. SALIR"
+												"\n--------------------------\n"
+												"Error. Reingrese una opción válida (1-3): " , 1 , 3);
+
+									switch (opcionSubMenu)
+									{
+									case 1:
+
+										printf("\nModificando el teléfono de contacto...\n");
+
+										auxNuevoTelefono = estadia_modificar (1);
+										if (auxNuevoTelefono != -1)
+										{
+											listaDuenios[posicion].telefono = auxNuevoTelefono;
+											printf("\nHa modificado el NUEVO TELEFONO exitosamente!\n");
+											systemPause("\nPresione una tecla para continuar...\n");
+										}
+
+										else
+										{
+											printf("\nHa cancelado la modificación del nuevo telefono.\n");
+											systemPause("\nPresione una tecla para continuar...\n");
+										}
+										break;
+
+
+									case 2:
+
+										printf("\nModificando el perro...\n");
+										if (posicion != -1)
+										{
+											perro_mostrarTodos(listaPerros, tamPerros);
+											getInt(&nuevoIdPerro, "\nIngrese el ID DEL PERRO que quiere asociar a la estadía: ",
+																  "\nError. Reingrese un ID PERRO válido: ", 7000 , 10000);
+											posNuevoIdPerro = perro_buscarCoincidenciaId(listaPerros, tamPerros, nuevoIdPerro);
+											auxNuevoPerro = listaPerros[posNuevoIdPerro];
+											respuestaNuevoPerro =  perro_verificar(auxNuevoPerro);
+
+											if (respuestaNuevoPerro == 1)
+											{
+												listaEstadias[posicion].idPerro = nuevoIdPerro;
+												printf("\nHa modificado el PERRO exitosamente!\n");
+												systemPause("\nPresione una tecla para continuar...\n");
+											}
+											else
+											{
+												printf("\nHa cancelado la modificación del perro.");
+												systemPause("\nPresione una tecla para continuar...\n");
+											}
+
+										}
+										else
+										{
+											printf("\nNo fue posible encontrar el perro solicitado.\n");
+										}
+										break;
+
+
+									case 3:
+
+										printf("\nVolviendo al menú principal...\n");
+										break;
+									}
+
+							}while (opcionSubMenu != 3);
+
+						}
+
+						else
+						{
+							printf("Error. El ID ingresado no coincide con ninguno.");
+						}
+
+
+					}
+					else
+					{
+						printf("\nError. Para acceder a las funciones primero debe hacer una reserva!\n");
+					}
+
+					break;
+
+
+			case 3:
+
+				if( flagEstadias == 1 && contadorEstadias > 0)
+				{
+					printf("\nCancelando estadía...\n");
+
+					nexo_mostrarEstadiasCompletas(listaEstadias, tamEstadias, listaPerros, tamPerros, listaDuenios, tamDuenios);
+					getInt(&idSearch, "\nIngrese el ID de la ESTADIA a cancelar: ", "\nError. Reingrese el un ID existente: ", 100000,199999);
+					while ( estadia_buscarExistenciaId (listaEstadias , tamEstadias , idSearch) == -1)
+					{
+						printf("\nError. El ID ingresado no coincide con ninguno.");
+						getInt(&idSearch, "\nIngrese el ID de la ESTADIA a cancelar: ", "\nError. Reingrese el un ID existente: ", 100000,199999);
+
+					}
+
+					cancelacion = estadia_cancelar(listaPerros, tamPerros, listaEstadias, tamEstadias, listaDuenios, tamDuenios, idSearch);
+					if (cancelacion == 0)
+					{
+						contadorEstadias--;
+						printf("\nHa CANCELADO la estadía exitosamente!\n");
+						systemPause("\nPresione una tecla para continuar...\n");
+					}
+
+					else
+					{
+						printf("\nError. No se ha podido cancelar la estadía.\n");
+						systemPause("\nPresione una tecla para continuar...\n");
+					}
+				}
+				else
+				{
+					printf("\nError. Para acceder a las funciones primero debe hacer una reserva\n");
+				}
+
+				break;
+
+
 			//PARA LISTAR ESTADIAS
 			case 4:
 
-				if(flagEstadias == 1 )
+				if(flagEstadias == 1 && contadorEstadias > 0)
 				{
 					//estadia_mostrarSoloEstadia(listaEstadias, tamEstadias , listaDuenios, tamDuenios);
 					nexo_mostrarEstadiasCompletas (listaEstadias, tamEstadias, listaPerros, tamPerros, listaDuenios, tamDuenios);
@@ -243,7 +390,7 @@ int menu (sEstadia listaEstadias[], int tamEstadias , sPerro listaPerros[] , int
 
 
 
-
+			//PARA LISTAR PERROS CON SUS ESTADIAS DIARIAS RESERVADAS
 			case 8:
 
 				if (flagEstadias == 1 && contadorPerros > 0)
@@ -275,133 +422,6 @@ int menu (sEstadia listaEstadias[], int tamEstadias , sPerro listaPerros[] , int
 
 
 
-			/*
-			case 2:
-					if (flagEstadias == 1 )
-					{
-					printf("\nModificando la estadía...\n");
-					estadia_mostrarSoloEstadia(listaEstadias, tamEstadias, listaDuenios, tamDuenios);
-					printf("\n\nIngrese el ID de la ESTADIA a modificar: ");
-					fflush(stdin);
-					scanf("%d", &idSearch);
-					while ( estadia_buscarExistenciaId (listaEstadias , tamEstadias , idSearch) == -1)
-					{
-						printf("\nError. Reingrese el un ID existente: ");
-						fflush(stdin);
-						scanf("%d", &idSearch);
-					}
-
-					posicion = estadia_buscarCoincidenciaId2 (listaEstadias , tamEstadias, idSearch);
-
-						do
-						{
-						getInt (&opcionSubMenu,
-												"\nMENU DE MODIFICACIONES"
-												"\n--------------------------\n"
-												"\n1. TELEFONO DE CONTACTO"
-												"\n2. PERRO"
-												"\n3. SALIR"
-												"\n--------------------------\n"
-												"Ingrese una opción (1-3): ",
-												"\n--------------------------\n"
-												"\n1. TELEFONO DE CONTACTO"
-												"\n2. PERRO"
-												"\n3. SALIR"
-												"\n--------------------------\n"
-												"Error. Reingrese una opción válida (1-3): " , 1 , 3);
-
-							switch (opcionSubMenu)
-							{
-							case 1:
-									printf("\nModificando el teléfono de contacto...\n");
-									auxNuevoTelefono = estadia_modificar (1);
-									if (auxNuevoTelefono != -1)
-									{
-										listaDuenios[posicion].telefono = auxNuevoTelefono;
-										//listaEstadias[posicion].telefonoContacto = auxNuevoTelefono;
-										printf("\nHa modificado el NUEVO TELEFONO exitosamente!\n");
-										system("pause");
-									}
-
-									else
-									{
-										printf("\nHa cancelado la modificación del nuevo telefono.\n");
-										system("pause");
-									}
-									break;
-
-
-
-							case 2:
-									printf("\nModificando el perro...\n");
-									if (posicion != -1)
-									{
-										idModificacion = listaPerros[posicion].id;
-										perro_modificar(listaPerros, tamPerros, posicion , idModificacion);
-										printf("\nHa modificado el PERRO exitosamente!\n");
-										system("pause");
-									}
-									else
-									{
-										printf("\nNo fue posible encontrar el perro solicitado.\n");
-									}
-
-									break;
-
-							case 3:
-									printf("\nVolviendo al menú principal...\n");
-									break;
-							}
-
-
-						}while (opcionSubMenu != 3);
-					}
-					else
-					{
-						printf("\nError. Para acceder a las funciones primero debe hacer una reserva!\n");
-					}
-
-					break;
-
-			case 3:
-
-				if( flagEstadia == 1 )
-				{
-					printf("\nCancelando estadía...\n");
-					estadia_mostrarSoloEstadia(listaEstadias, tamEstadias, listaDuenios, tamDuenios);
-
-					printf("\n\nIngrese el ID de la ESTADIA a cancelar: ");
-					fflush(stdin);
-					scanf("%d", &idSearch);
-					while ( estadia_buscarExistenciaId (listaEstadias , tamEstadias , idSearch) == -1)
-					{
-						printf("\nError. Reingrese el un ID existente: ");
-						fflush(stdin);
-						scanf("%d", &idSearch);
-					}
-
-					cancelacion = estadia_cancelar(listaPerros, tamPerros, listaEstadias, tamEstadias, listaDuenios, tamDuenios, idSearch);
-					if (cancelacion != -1)
-					{
-						contadorPerros--;
-						contadorDuenios--;
-						contadorEstadias--;
-						printf("\nHa CANCELADO la estadía exitosamente!\n");
-						system("pause");
-					}
-
-					else
-					{
-						printf("\nError. No se ha podido cancelar la estadía.\n");
-						system("pause");
-					}
-				}
-				else
-				{
-					printf("\nError. Para acceder a las funciones primero debe hacer una reserva\n");
-				}
-
-				break;*/
 
 
 

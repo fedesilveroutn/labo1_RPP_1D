@@ -15,8 +15,8 @@ accion: -1 si da error y 0 si sale bien
 #include "input.h"
 #include "menu.h"
 #define TAM 5
-#define IDESTADIA 100002 //inicializo los IDs porque los había hardcodeado
-#define IDPERRO 7002
+#define IDESTADIA 99999
+#define IDPERRO 7002 //inicializo los IDs porque los había hardcodeado
 #define IDDUENIO 30002
 
 int main(void) {
