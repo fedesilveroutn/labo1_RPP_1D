@@ -31,6 +31,7 @@ sDuenio duenio_pedirDatos (sDuenio duenio , int ultimoIdDuenio);
 sDuenio duenio_pedirDatosSinId (sDuenio duenio);
 int duenio_verificar (sDuenio duenio);
 void duenio_mostrar (sDuenio duenio);
+void duenio_mostrarTodos (sDuenio listaDuenios[], int tamDuenios);
 int duenio_modificar (sDuenio listaDuenios[] , int tamDuenios , int pos , int id);
 int duenio_pedirNuevoTelefono ();
 int duenio_verificarSinId (sDuenio duenio);

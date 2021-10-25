@@ -161,6 +161,26 @@ void duenio_mostrar (sDuenio duenio)
 
 
 
+void duenio_mostrarTodos (sDuenio listaDuenios[], int tamDuenios)
+{
+	int i;
+	for (i = 0; i < tamDuenios; i++)
+	{
+		if (listaDuenios[i].estado == 1 )
+		{
+			printf("%-20d %-20s %-20d\n", listaDuenios[i].id, listaDuenios[i].nombre, listaDuenios[i].telefono);
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
 int duenio_modificar (sDuenio listaDuenios[] , int tamDuenios , int pos , int id)
 {
 		sDuenio aux;

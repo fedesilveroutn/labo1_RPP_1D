@@ -232,20 +232,27 @@ sEstadia estadia_pedirDatos (sEstadia auxiliar , int ultimoId , sPerro listaPerr
 		id = ultimoId + 1;
 
 		//pido el ingreso de un ID de perro y busco si existe
-		getInt (&idPerro, "\n\nIngrese el ID del perro: ", "Error. Ingrese un ID válido: ", 1000 , 10000);
+
+		perro_mostrarTodos(listaPerros, tamPerro);
+		getInt (&idPerro, "\n\nIngrese el ID del perro para el cual quiere reservar una estadía: ", "Error. Ingrese un ID válido: ", 1000 , 10000);
+		printf("\n----------------------------------------------------------------------------------------\n");
 		while (estadia_buscarCoincidenciaId (listaPerros, tamPerro , idPerro) == -1)
 		{
 			printf("Error. ID de perro inexistente. Reintente.\n");
 			getInt (&idPerro, "Ingrese el ID del perro: ", "Error. Ingrese un ID válido: ", 1000 , 2000);
+			printf("\n----------------------------------------------------------------------------------------\n");
 		}
 
 
 		//pido el ingreso de un ID de dueño y busco si existe
-		getInt (&idDuenio, "Ingrese el ID del dueño: ", "Error. Ingrese un ID válido: ", 30000 , 40000);
+		duenio_mostrarTodos(listaDuenios, tamDuenio);
+		getInt (&idDuenio, "\nIngrese el ID del DUEÑO de ese perro: ", "\nError. Ingrese un ID válido: ", 30000 , 40000);
+		printf("\n----------------------------------------------------------------------------------------\n");
 		while (estadia_buscarCoincidenciaIdDuenio (listaDuenios , tamDuenio , idDuenio) == -1 )
 		{
-			printf("Error. ID de dueño inexistente. Reintente.\n");
-			getInt (&idDuenio, "Ingrese el ID del dueño: ", "Error. Ingrese un ID válido: ", 30000 , 40000);
+			printf("\nError. ID de dueño inexistente. Reintente.\n");
+			getInt (&idDuenio, "\nIngrese el ID del dueño: ", "\nError. Ingrese un ID válido: ", 30000 , 40000);
+			printf("\n----------------------------------------------------------------------------------------\n");
 		}
 
 
@@ -313,7 +320,7 @@ int estadia_reservar (sEstadia reserva[] , int tam , int ultimoId , sPerro lista
 	{
 		if (estadia_buscarLugar (reserva , tam) != -1)
 		{
-			nexo_mostrarPerrosConDuenios(listaPerros, tamPerro, listaDuenios, tamDuenio);
+			//nexo_mostrarPerrosConDuenios(listaPerros, tamPerro, listaDuenios, tamDuenio);
 			aux = estadia_pedirDatos (aux , ultimoId , listaPerros , tamPerro , listaDuenios, tamDuenio);
 			posicionIdPerro = perro_buscarCoincidenciaId(listaPerros, tamPerro, aux.idPerro);
 			posicionIdDuenio = duenio_buscarCoincidenciaId(listaDuenios, tamDuenio, aux.idDuenio);
