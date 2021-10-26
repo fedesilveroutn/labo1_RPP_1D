@@ -21,7 +21,6 @@ typedef struct
 
 
 int estadia_inicializar (sEstadia reservas[], int tam);
-//int estadia_hardcodear (sEstadia reserva[]);
 int estadia_buscarLugar (sEstadia reserva[] , int tam);
 int estadia_buscarExistenciaId (sEstadia reserva[] , int tam , int id);
 int estadia_buscarCoincidenciaId (sPerro lista[] , int tam , int id);

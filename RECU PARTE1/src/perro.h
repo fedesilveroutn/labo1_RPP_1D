@@ -19,6 +19,7 @@ typedef struct
 } sPerro;
 
 int perro_inicializar (sPerro perros[], int tam);
+int perro_inicializarContadorEstadia (sPerro listaPerros[], int tamPerros);
 int perro_hardcodear (sPerro lista[]);
 int perro_buscarLugar (sPerro lista[] , int tam);
 int perro_buscarCoincidenciaId (sPerro lista[] , int tam, int id);

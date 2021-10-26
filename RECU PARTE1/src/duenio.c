@@ -164,6 +164,9 @@ void duenio_mostrar (sDuenio duenio)
 void duenio_mostrarTodos (sDuenio listaDuenios[], int tamDuenios)
 {
 	int i;
+	printf("\n----------------------------------------------------------------------------------------\n");
+	printf("%-20s %-20s %-20s\n\n","ID DUEÑO", "NOMBRE DUEÑO", "TELEFONO");
+
 	for (i = 0; i < tamDuenios; i++)
 	{
 		if (listaDuenios[i].estado == 1 )
@@ -171,13 +174,8 @@ void duenio_mostrarTodos (sDuenio listaDuenios[], int tamDuenios)
 			printf("%-20d %-20s %-20d\n", listaDuenios[i].id, listaDuenios[i].nombre, listaDuenios[i].telefono);
 		}
 	}
+	printf("----------------------------------------------------------------------------------------\n");
 }
-
-
-
-
-
-
 
 
 

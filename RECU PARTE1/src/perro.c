@@ -19,11 +19,31 @@ int perro_inicializar (sPerro perros[], int tam)
 			for (i = 0; i < tam; i++)
 			{
 				perros[i].estado = 0;
+				perro_inicializarContadorEstadia(perros, tam);
 			}
 			ret = 0;
 		}
 		return ret;
 }
+
+
+int perro_inicializarContadorEstadia (sPerro listaPerros[], int tamPerros)
+{
+	int ret = -1;
+	int i;
+
+	if (listaPerros != NULL)
+	{
+		for (i = 0; i < tamPerros; i++)
+		{
+			listaPerros[i].contadorEstadia = 0;
+		}
+	}
+
+	return ret;
+}
+
+
 
 
 
@@ -38,15 +58,14 @@ int perro_hardcodear (sPerro lista[])
 {
 	int ret = -1;
 	int i;
+	int ids[3] = {7000 , 7001, 7002};
+	char nombres[3][21] = {"Lobo" , "Sheila", "Reina" }    ;
+	char razas[3][21] = {"Sharpei" , "Golden" , "Galgo" };
+	int edades[3] = {2 , 12 , 13} ;
+	int estados[3] = {1 , 1 , 1 } ;
 
 	if (lista != NULL)
 	{
-		int ids[3] = {7000 , 7001, 7002};
-		char nombres[3][21] = {"Lobo" , "Sheila", "Reina" }    ;
-		char razas[3][21] = {"Sharpei" , "Golden" , "Galgo" };
-		int edades[3] = {2 , 12 , 13} ;
-		int estados[3] = {1 , 1 , 1 } ;
-
 		for (i = 0; i < 3; i++)
 		{
 			lista[i].id = ids[i];
@@ -137,7 +156,7 @@ sPerro perro_pedirDatos (sPerro perro , int ultimoIdPerro)
 	char nombre[21];
 	char raza[21];
 	int edad;
-	sPerro aux; //voy a cargar mi auxiliar con los datos que le pedi al usuario y lo retorno ya cargado
+	sPerro aux;
 
 	id = ultimoIdPerro + 1;
 	getString (nombre, "Ingrese el NOMBRE del perro: ", "ERROR. Reingrese un NOMBRE válido (hasta 20 caracteres):", 21);
@@ -252,39 +271,25 @@ int perro_cargar (sPerro lista[] , int tam , int ultimoIdPerro)
 
 	if (lista != NULL)
 	{
-		//si la funcion buscar devuelve algo != -1 significa que existe un lugar disponible para cargar un perro
 		if (perro_buscarLugar (lista , tam) != -1)
 		{
-			//pido los datos y los guardo en un auxiliar para verificar si el usuario esta de acuerdo con lo que ingresó
 			aux = perro_pedirDatos (aux , ultimoIdPerro);
 			confirmacion = perro_verificar (aux);
 
-
-			//si la respuesta a la confirmacion fue que si entonces:
 			if(confirmacion == 1)
 			{
-				//vuelvo a buscar un lugar disponible pero esta vez guardo la posición del subíndice libre en index
 				index = perro_buscarLugar (lista , tam);
-
-				//asigno en la posicion index de mi lista de perros, lo que tenía guardado en auxiliar y cambio el estado a ocupado
 				lista[index] = aux;
 				lista[index].estado = 1;
-				lista[index].contadorEstadia += 1;
-
-				//como ya se cargó el perro, aumento el ultimo ID de perro
+				lista[index].contadorEstadia = 0;
 				ultimoIdPerro++;
 
-				//muestro el perro que cargué
 				printf("\n***PERRO CARGADO EXITOSAMENTE!***");
-
-
-				//retorno el último ID de perro actualizado
 				ret = ultimoIdPerro;
 			}
 
 			else
 			{
-				//mensaje a mostrar si no confirma la carga
 				printf("\nUsted ha cancelado la carga del perro.\n");
 			}
 
@@ -292,7 +297,6 @@ int perro_cargar (sPerro lista[] , int tam , int ultimoIdPerro)
 
 		else
 		{
-			//mensaje a mostrar si no pudo encontrar la existencia de un lugar disponible para la carga
 			printf("\nNo hay lugar disponible para la carga del perro.");
 		}
 	}
