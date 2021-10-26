@@ -14,7 +14,7 @@ Divisón: 1°D
 #define TAM 20
 #define IDESTADIA 99999
 #define IDPERRO 7002
-#define IDDUENIO 30002
+#define IDDUENIO 30004
 
 int main(void) {
 	setbuf(stdout, NULL);

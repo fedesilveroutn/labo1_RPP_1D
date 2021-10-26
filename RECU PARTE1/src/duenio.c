@@ -30,14 +30,14 @@ int duenio_hardcodear (sDuenio lista[])
 	int ret = -1;
 	int i;
 
+	int ids[5] = {30000 , 30001, 30002 , 30003 , 30004};
+	char nombres[5][41] = {"Federico Silvero" , "Constanza Arancio", "Valentin Silvero", "Melissa Brizuela", "JuanPaulo Scallise" }    ;
+	int telefono[5] = {1132497707 , 1132924403 , 1122334455 , 1133445566 , 1144556677} ;
+	int estados[5] = {1 , 1 , 1 , 1 , 1} ;
+
 	if (lista != NULL)
 	{
-		int ids[5] = {30000 , 30001, 30002 , 30003 , 30004};
-		char nombres[5][41] = {"Federico Silvero" , "Constanza Arancio", "Valentin Silvero", "Melissa Brizuela", "JuanPaulo Scallise" }    ;
-		int telefono[5] = {1132497707 , 1132924403 , 1122334455 , 1133445566 , 1144556677} ;
-		int estados[5] = {1 , 1 , 1 , 1 , 1} ;
-
-		for (i = 0; i < 3; i++)
+		for (i = 0; i < 5; i++)
 		{
 			lista[i].id = ids[i];
 			strcpy (lista[i].nombre , nombres[i]);

@@ -40,8 +40,9 @@ void nexo_mostrarEstadiasCompletas (sEstadia reservas[], int tamEstadias, sPerro
 
 	if (reservas != NULL && listaPerros != NULL && listaDuenios != NULL)
 	{
-		printf( "\n%-15s %-15s %-15s %-15s %-15s %-20s %-20s %-20s %-20s\n",
-				"ID PERRO", "NOMBRE PERRO", "RAZA", "EDAD", "ID DUEÑO", "NOMBRE DUEÑO", "TELEFONO", "ID ESTADIA", "FECHA");
+		printf( "\n------------------------------------------------------------------------------------------------------------------------------\n"
+				"\n%-15s %-15s %-15s %-15s %-20s %-20s %-20s\n\n",
+				"ID ESTADIA", "NOMBRE PERRO", "RAZA", "EDAD", "NOMBRE DUEÑO", "TELEFONO", "FECHA");
 
 
 		for (i = 0; i < tamEstadias; i++)
@@ -51,12 +52,13 @@ void nexo_mostrarEstadiasCompletas (sEstadia reservas[], int tamEstadias, sPerro
 				posicionPerro = perro_buscarCoincidenciaId(listaPerros, tamPerros, reservas[i].idPerro);
 				posicionDuenio = duenio_buscarCoincidenciaId(listaDuenios, tamDuenios, reservas[i].idDuenio);
 
-				printf( "%-15d %-15s %-15s %-15d %-15d %-20s %-20d %-20d %-2d/%-2d/%-2d\n" ,
-						listaPerros[posicionPerro].id, listaPerros[posicionPerro].nombre, listaPerros[posicionPerro].raza, listaPerros[posicionPerro].edad,
-						listaDuenios[posicionDuenio].id, listaDuenios[posicionDuenio].nombre, listaDuenios[posicionDuenio].telefono,
-						reservas[i].id, reservas[i].fecha.dia, reservas[i].fecha.mes, reservas[i].fecha.anio);
+				printf( "%-15d %-15s %-15s %-15d %-20s %-20d %-2d/%-2d/%-2d\n" ,
+						reservas[i].id, listaPerros[posicionPerro].nombre, listaPerros[posicionPerro].raza, listaPerros[posicionPerro].edad,
+						listaDuenios[posicionDuenio].nombre, listaDuenios[posicionDuenio].telefono,
+						reservas[i].fecha.dia, reservas[i].fecha.mes, reservas[i].fecha.anio);
 			}
 		}
+		printf( "------------------------------------------------------------------------------------------------------------------------------\n");
 	}
 }
 
@@ -69,9 +71,10 @@ void nexo_mostrarPerrosConEstadias (sPerro listaPerros[], int tamPerros, sEstadi
 
 	if (listaPerros != NULL && listaEstadias != NULL)
 	{
+
 		for (i = 0; i < tamPerros; i++)
 		{
-			if (listaPerros[i].contadorEstadia > 0)
+			if (listaPerros[i].estado == 1 && listaPerros[i].contadorEstadia > 0 )
 			{
 				printf( "\n***************************************\n"
 						"%s cuenta con las siguientes reservas:\n", listaPerros[i].nombre);
@@ -83,10 +86,30 @@ void nexo_mostrarPerrosConEstadias (sPerro listaPerros[], int tamPerros, sEstadi
 						printf("\n%d/%d/%d", listaEstadias[j].fecha.dia, listaEstadias[j].fecha.mes, listaEstadias[j].fecha.anio );
 					}
 				}
+
 			}
 		}
 	}
 }
+
+
+int nexo_existenciaEstadia ( sPerro listaPerros[] , int tam   )
+{
+	int ret = -1;
+	int i;
+
+	for (i = 0; i < tam; i++)
+	{
+		if (listaPerros[i].contadorEstadia > 0 )
+		{
+			ret = 0;
+			break;
+		}
+	}
+
+	return ret;
+}
+
 
 
 

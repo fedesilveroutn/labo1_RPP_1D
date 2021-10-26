@@ -206,13 +206,13 @@ sEstadia estadia_pedirDatos (sEstadia auxiliar , int ultimoId , sPerro listaPerr
 		}
 
 
-		fecha = fecha_pedir("\n----------------------------------------------------------------------------------------"
-							"\nFecha de la reserva...\n");
+		fecha = fecha_pedir("\nFecha de la reserva...\n");
 
 		auxiliar.id = id;
 		auxiliar.idPerro = idPerro;
 		auxiliar.idDuenio = idDuenio;
 		auxiliar.fecha = fecha;
+		auxiliar.estado = 1;
 
 	}
 	return auxiliar;
@@ -231,16 +231,14 @@ int estadia_verificar (sEstadia reserva, sPerro perro, sDuenio duenio)
 {
 	int respuesta;
 
-	printf("\n------------------------------------------------------------------------------------------------------------------------\n");
-	printf("\n%-20s %-20s %-20s %-20s %-20s %-20s\n",
-		   "ID ESTADIA", "NOMBRE PERRO", "RAZA", "NOMBRE DUEÑO", "TELEFONO", "FECHA");
-
-
-	printf("\n%-20d %-20s %-20s %-20s %-20d %d/%d/%d", reserva.id , perro.nombre, perro.raza, duenio.nombre, duenio.telefono, reserva.fecha.dia , reserva.fecha.mes, reserva.fecha.anio );
-
-
-
-	getInt (&respuesta, "\n\nDesea CONFIRMAR los datos de la estadia (0 = no / 1 = si)? : ", "Error. Elija una opcion (0 = no / 1 = si): ", 0 , 1);
+	if (reserva.estado == 1)
+	{
+		printf("\n------------------------------------------------------------------------------------------------------------------------\n");
+		printf("\n%-20s %-20s %-20s %-20s %-20s %-20s\n", "ID ESTADIA", "NOMBRE PERRO", "RAZA", "NOMBRE DUEÑO", "TELEFONO", "FECHA");
+		printf("\n%-20d %-20s %-20s %-20s %-20d %d/%d/%d",	reserva.id , perro.nombre, perro.raza, duenio.nombre, duenio.telefono, reserva.fecha.dia , reserva.fecha.mes, reserva.fecha.anio );
+		printf("\n------------------------------------------------------------------------------------------------------------------------\n");
+		getInt (&respuesta, "\nDesea CONFIRMAR los datos de la estadia (0 = no / 1 = si)? : ", "Error. Elija una opcion (0 = no / 1 = si): ", 0 , 1);
+	}
 
 	return respuesta;
 }
@@ -363,19 +361,21 @@ int estadia_cancelar (sPerro perros[], int tamPerros, sEstadia reserva[], int ta
 	int ret = -1;
 	int pos;
 	int posPerro;
+	int posDuenio;
 	int confirmacion;
 
 	if (reserva != NULL && perros!= NULL && listaDuenios != NULL)
 	{
 		pos = estadia_buscarCoincidenciaId2(reserva, tamEstadias, id);
-
+		posPerro = perro_buscarCoincidenciaId(perros, tamPerros, reserva[pos].idPerro);
+		posDuenio = duenio_buscarCoincidenciaId(listaDuenios, tamDuenios, reserva[pos].idDuenio);
 		if(pos != -1)
 		{
 			printf("\nDatos de la estadía a ser cancelada: ");
-			confirmacion = estadia_verificar (reserva[pos], perros[pos], listaDuenios[pos]);
+			confirmacion = estadia_verificar (reserva[pos], perros[posPerro], listaDuenios[posDuenio]);
 			if (confirmacion == 1)
 			{
-				posPerro = perro_buscarCoincidenciaId(perros, tamPerros, reserva[pos].idPerro);
+
 				reserva[pos].estado = 0;
 				perros[posPerro].contadorEstadia--;
 				ret = 0;

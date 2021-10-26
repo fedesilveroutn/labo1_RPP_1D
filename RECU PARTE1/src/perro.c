@@ -159,9 +159,9 @@ sPerro perro_pedirDatos (sPerro perro , int ultimoIdPerro)
 	sPerro aux;
 
 	id = ultimoIdPerro + 1;
-	getString (nombre, "Ingrese el NOMBRE del perro: ", "ERROR. Reingrese un NOMBRE válido (hasta 20 caracteres):", 21);
-	getString (raza, "Ingrese la RAZA del perro: ", "ERROR. Reingrese una RAZA válida (hasta 20 caracteres):", 21);
-	getInt (&edad, "Ingrese la EDAD del perro: ", "ERROR. Reingrese una EDAD válida (1-20): ", 1 , 20);
+	getString (nombre, "Ingrese el NOMBRE DEL PERRO: ", "ERROR. Reingrese un NOMBRE válido (hasta 20 caracteres):", 21);
+	getString (raza, "Ingrese la RAZA DEL PERRO: ", "ERROR. Reingrese una RAZA válida (hasta 20 caracteres):", 21);
+	getInt (&edad, "Ingrese la EDAD DEL PERRO: ", "ERROR. Reingrese una EDAD válida (1-20): ", 1 , 20);
 
 	aux.id = id;
 	strcpy (aux.nombre , nombre);
@@ -188,9 +188,9 @@ sPerro perro_pedirDatosSinId (sPerro perro)
 	int edad;
 	sPerro aux;
 
-	getString (nombre, "Ingrese el NOMBRE del perro: ", "Error. Ingrese un nombre válido (hasta 20 caracteres):", 21);
-	getString (raza, "Ingrese la RAZA del perro: ", "Error. Ingrese una raza válida (hasta 20 caracteres):", 21);
-	getInt (&edad, "Ingrese la EDAD del perro: ", "Error. Ingrese una edad válida (1-20): ", 1 , 20);
+	getString (nombre, "Ingrese el NOMBRE DEL PERRO: ", "ERROR. Ingrese un nombre válido (hasta 20 caracteres):", 21);
+	getString (raza, "Ingrese la RAZA DEL PERRO: ", "ERROR. Ingrese una raza válida (hasta 20 caracteres):", 21);
+	getInt (&edad, "Ingrese la EDAD DEL PERRO: ", "ERROR. Ingrese una edad válida (1-20): ", 1 , 20);
 
 	strcpy (aux.nombre , nombre);
 	strcpy (aux.raza , raza);
@@ -246,7 +246,7 @@ int perro_verificarSinId (sPerro perro)
 		   "\nNOMBRE: %s\nRAZA: %s\nEDAD: %d\n"
 		   "\n----------------------------------------------------------------\n", perro.nombre, perro.raza, perro.edad);
 
-	getInt (&respuesta, "Desea CONFIRMAR los datos del perro (0 = no / 1 = si)? : ", "Error. Elija una opcion (0 = no / 1 = si): ", 0 , 1);
+	getInt (&respuesta, "Desea CONFIRMAR los datos del perro (0 = no / 1 = si)? : ", "ERROR. Elija una opcion (0 = no / 1 = si): ", 0 , 1);
 
 	return respuesta;
 }
