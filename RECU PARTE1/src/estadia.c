@@ -1,8 +1,6 @@
 
 #include "estadia.h"
 
-
-
 /**
  * @fn int estadia_inicializar(sEstadia[], int)
  * @brief inicializa en 0 los estados de todos los subindices de un array de sEstadia
@@ -26,16 +24,13 @@ int estadia_inicializar (sEstadia reservas[], int tam)
 	return ret;
 }
 
-
-
-
 /**
  * @fn int estadia_buscarLugar(sEstadia[], int)
  * @brief  busca un lugar vacio, es decir, con estado cero
  *
  * @param reserva recibe un array sEstadia
  * @param tam recibe el tamaño del array
- * @return retorna -1 si no encontró ningún lugar vacío, retorna la posición vacía si la encontró
+ * @return retorna retorna la posición vacía si la encontró o -1 si no encontró ningún lugar vacío
  */
 int estadia_buscarLugar (sEstadia reserva[] , int tam)
 {
@@ -52,15 +47,12 @@ int estadia_buscarLugar (sEstadia reserva[] , int tam)
 			}
 		}
 	}
-
 	return posicion;
 }
 
-
-
 /**
  * @fn int estadia_buscarExistenciaId(sEstadia[], int, int)
- * @brief busca una coincidencia de IDs dentro de los subindices de un array sEstadia con estado ocupado
+ * @brief busca una coincidencia de IDs entre lo pasado por paramatro y el campo id, dentro de los subindices de un array sEstadia con estado ocupado
  *
  * @param reserva recibe el array sEstadia
  * @param tam recibe el tamaño del array
@@ -85,8 +77,6 @@ int estadia_buscarExistenciaId (sEstadia reserva[] , int tam , int id)
 	return ret;
 }
 
-
-
 /**
  * @fn int estadia_buscarCoincidenciaId(sPerro[], int, int)
  * @brief  compara el campo ID del array sPerro con el ID pasado por parámetro
@@ -110,11 +100,8 @@ int estadia_buscarCoincidenciaId (sPerro lista[] , int tam , int id)
 			}
 		}
 	}
-
 	return ret;
 }
-
-
 
 /**
  * @fn int estadia_buscarCoincidenciaId2(sEstadia[], int, int)
@@ -144,9 +131,15 @@ int estadia_buscarCoincidenciaId2 (sEstadia reserva[] , int tam , int id)
 	return posicion;
 }
 
-
-
-
+/**
+ * @fn int estadia_buscarCoincidenciaIdDuenio(sDuenio[], int, int)
+ * @brief busca una coincidencia entre el campo id de una variable sDuenio y lo compara con el id recibido por parametro
+ *
+ * @param listaDuenios recibe un array sDuenio
+ * @param tamDuenio recibe el tamanio de ese array sDuenio
+ * @param id recibe el ID (idDuenio) con el que hara la comparacion
+ * @return retorna 0 si encontro una coincidencia y -1 si hubo error
+ */
 int estadia_buscarCoincidenciaIdDuenio (sDuenio listaDuenios[] , int tamDuenio , int id)
 {
 	int ret = -1;
@@ -162,18 +155,17 @@ int estadia_buscarCoincidenciaIdDuenio (sDuenio listaDuenios[] , int tamDuenio ,
 			}
 		}
 	}
-
 	return ret;
 }
 
 /**
- * @fn sEstadia estadia_pedirDatos(sEstadia, int, sPerro[], int)
+ * @fn sEstadia estadia_pedirDatos(sEstadia, int, sPerro[], int, sDuenio, int)
  * @brief pide los datos para cargar un array sEstadia
  *
- * @param auxiliar recibe una instancia de sEstadia
+ * @param auxiliar recibe una variable de tipo sEstadia
  * @param ultimoId recibe el último ID correspondiente a la estadía
  * @param lista recibe un array sPerro
- * @param tam recibe el tamaño del array
+ * @param tam recibe el tamaño del array sPerro
  * @return retorna el auxiliar cargado con los datos ingresados
  */
 sEstadia estadia_pedirDatos (sEstadia auxiliar , int ultimoId , sPerro listaPerros[] , int tamPerro, sDuenio listaDuenios[], int tamDuenio)
@@ -186,7 +178,6 @@ sEstadia estadia_pedirDatos (sEstadia auxiliar , int ultimoId , sPerro listaPerr
 	if (listaPerros != NULL && listaDuenios != NULL)
 	{
 		id = ultimoId + 1;
-
 		perro_mostrarTodos(listaPerros, tamPerro);
 		getInt (&idPerro, "\nIngrese el ID del perro para el cual quiere reservar una estadía: ", "Error. Ingrese un ID válido: ", 1000 , 10000);
 		while (estadia_buscarCoincidenciaId (listaPerros, tamPerro , idPerro) == -1)
@@ -194,8 +185,6 @@ sEstadia estadia_pedirDatos (sEstadia auxiliar , int ultimoId , sPerro listaPerr
 			printf("Error. ID de perro inexistente. Reintente.\n");
 			getInt (&idPerro, "Ingrese el ID del perro: ", "Error. Ingrese un ID válido: ", 1000 , 2000);
 		}
-
-
 		duenio_mostrarTodos(listaDuenios, tamDuenio);
 		getInt (&idDuenio, "\nIngrese el ID del DUEÑO de ese perro: ", "\nError. Ingrese un ID válido: ", 30000 , 40000);
 		while (estadia_buscarCoincidenciaIdDuenio (listaDuenios , tamDuenio , idDuenio) == -1 )
@@ -204,28 +193,25 @@ sEstadia estadia_pedirDatos (sEstadia auxiliar , int ultimoId , sPerro listaPerr
 			getInt (&idDuenio, "\nIngrese el ID del dueño: ", "\nError. Ingrese un ID válido: ", 30000 , 40000);
 			printf("\n----------------------------------------------------------------------------------------\n");
 		}
-
-
 		fecha = fecha_pedir("\nFecha de la reserva...\n");
-
 		auxiliar.id = id;
 		auxiliar.idPerro = idPerro;
 		auxiliar.idDuenio = idDuenio;
 		auxiliar.fecha = fecha;
 		auxiliar.estado = 1;
-
 	}
 	return auxiliar;
 }
 
-
-
 /**
- * @fn int estadia_verificar(sEstadia)
- * @brief  imprime los datos cargados por el usuario y le pide que los confirme
+ * @fn int estadia_verificar(sEstadia, sPerro, sDuenio)
+ * @brief muestra ID ESTADIA-NOMBRE_PERRO-RAZA-NOMBRE_DUEÑO-TELEFONO-FECHA y solicita al usuario que confirme los datos ingresados
+ * 		  para luego retornar la respuesta
  *
- * @param reserva recibe una instancia de sEstadia
- * @return retorna la respuesta del usuario siendo 0 = no y 1 = si
+ * @param reserva recibe una variable del tipo sEstadia
+ * @param perro recibe una variable del tipo sPerro
+ * @param duenio recibe una variable del tipo sDuenio
+ * @return retorna la respuesta ingresada por el usuario siendo (0 = no / 1 = si)
  */
 int estadia_verificar (sEstadia reserva, sPerro perro, sDuenio duenio)
 {
@@ -239,22 +225,21 @@ int estadia_verificar (sEstadia reserva, sPerro perro, sDuenio duenio)
 		printf("\n------------------------------------------------------------------------------------------------------------------------\n");
 		getInt (&respuesta, "\nDesea CONFIRMAR los datos de la estadia (0 = no / 1 = si)? : ", "Error. Elija una opcion (0 = no / 1 = si): ", 0 , 1);
 	}
-
 	return respuesta;
 }
 
-
-
 /**
- * @fn int estadia_reservar(sEstadia[], int, int, sPerro[], int)
- * @brief se encarga de realizar la reserva de la estadia para un perro
+ * @fn int estadia_reservar(sEstadia[], int, int, sPerro[], int, sDuenio[], int)
+ * @brief realiza la reserva de una estadia
  *
  * @param reserva recibe un array sEstadia
- * @param tam recibe el tamaño del array
- * @param ultimoId recibe el último ID correspondiente a la estadia
- * @param lista recibe un array sPerro
- * @param tamPerro recibe el tamaño del array
- * @return retorna el último ID actualizado
+ * @param tam recibe el tamanio de ese array sEstadia
+ * @param ultimoId recibe el ultimo ID correspondiente a la estadia
+ * @param listaPerros recibe un array sPerro
+ * @param tamPerro recibe el tamanio del array sPerro
+ * @param listaDuenios recibe un array sDuenio
+ * @param tamDuenio recibe el tamanio de ese array sDuenio
+ * @return retorna el ultimo ID actualizado si salio bien o -1 si hubo error
  */
 int estadia_reservar (sEstadia reserva[] , int tam , int ultimoId , sPerro listaPerros[] , int tamPerro, sDuenio listaDuenios[] , int tamDuenio)
 {
@@ -273,16 +258,13 @@ int estadia_reservar (sEstadia reserva[] , int tam , int ultimoId , sPerro lista
 			aux = estadia_pedirDatos (aux , ultimoId , listaPerros , tamPerro , listaDuenios, tamDuenio);
 			posicionIdPerro = perro_buscarCoincidenciaId(listaPerros, tamPerro, aux.idPerro);
 			posicionIdDuenio = duenio_buscarCoincidenciaId(listaDuenios, tamDuenio, aux.idDuenio);
-
 			printf("\nDatos de la estadia A CONFIRMAR:");
 			confirmacion = estadia_verificar (aux, listaPerros[posicionIdPerro], listaDuenios[posicionIdDuenio]);
-
 			if(confirmacion == 1)
 			{
 				index = estadia_buscarLugar (reserva , tam);
 				reserva[index] = aux;
 				reserva[index].estado = 1;
-
 				posPerro = perro_buscarCoincidenciaId(listaPerros, tamPerro, reserva[index].idPerro);
 				listaPerros[posPerro].contadorEstadia++;
 				ultimoId++;
@@ -300,11 +282,8 @@ int estadia_reservar (sEstadia reserva[] , int tam , int ultimoId , sPerro lista
 			printf("\nNo hay lugar disponible para reservar.\n");
 		}
 	}
-
 	return ret;
 }
-
-
 
 /**
  * @fn int estadia_modificar(int)
@@ -324,7 +303,6 @@ int estadia_modificar (int elemento)
 		nuevoTelefono = duenio_pedirNuevoTelefono ();
 		printf("\nSu nuevo número de teléfono será: %d\n", nuevoTelefono);
 		getInt (&respuesta, "\nDesea confirmar la modificacion del TELEFONO (0 = no / 1 = si) ?: ", "\nError. Ingrese una opción válida (0 = no / 1 = si): ", 0 , 1);
-
 		if ( respuesta == 1)
 		{
 			ret = nuevoTelefono;
@@ -339,22 +317,21 @@ int estadia_modificar (int elemento)
 	{
 		printf("\nNo se puede modificar una opcion que no existe.");
 	}
-
 	return ret;
 }
 
-
-
 /**
- * @fn int estadia_cancelar(sPerro[], int, sEstadia[], int, int)
- * @brief realiza una baja lógica
+ * @fn int estadia_cancelar(sPerro[], int, sEstadia[], int, sDuenio[], int, int)
+ * @brief realiza la cancelacion de una estadia
  *
  * @param perros recibe un array sPerro
- * @param tamPerros recibe el tamaño del array
+ * @param tamPerros recibe el tamanio de ese array sPerro
  * @param reserva recibe un array sEstadia
- * @param tamEstadias recibe el tamaño del array sEstadia
- * @param id recibe el ID correspondiente a la estadia a ser dada de baja
- * @return retorna -1 si hubo error, retorna 0 si funcionó correctamente
+ * @param tamEstadias recibe el tamanio de ese array sEstadia
+ * @param listaDuenios recibe un array sDuenio
+ * @param tamDuenios recibe el tamanio de ese array sDuenio
+ * @param id recibe el ID correspondiente a la estadia que se quiere cancelar
+ * @return retorna 0 si funciono o -1 si hubo error
  */
 int estadia_cancelar (sPerro perros[], int tamPerros, sEstadia reserva[], int tamEstadias , sDuenio listaDuenios[], int tamDuenios, int id)
 {
@@ -384,27 +361,24 @@ int estadia_cancelar (sPerro perros[], int tamPerros, sEstadia reserva[], int ta
 			{
 				printf("\nUsted ha rechazado realizar la cancelacion de la estadía");
 			}
-
-
 		}
 		else
 		{
 			printf("\nError. El ID entregado no coincide con ninguna estadía.");
 		}
 	}
-
 	return ret;
 }
 
-
-
 /**
- * @fn int estadia_ordenarPorFecha(sEstadia[], int)
- * @brief ordena las reservas por fechas y si estas son iguales, lo hace por el nombre del dueño
+ * @fn int estadia_ordenarPorFecha(sEstadia[], int, sDuenio[], int)
+ * @brief ordena las estadias de forma creciente segun la fecha o si estas son iguales, lo hace segun el nombre del duenio
  *
  * @param reservas recibe un array sEstadia
- * @param tamReservas recibe el tamaño del array
- * @return retorna -1 si hubo error, retorna 0 si funcionó correctamente
+ * @param tamReservas recibe el tamanio de ese array sEstadia
+ * @param listaDuenios recibe un array sDuenio
+ * @param tamDuenios recibe el tamanio de ese array sDuenio
+ * @return retorna 0 si funciono o -1 si hubo error
  */
 int estadia_ordenarPorFecha (sEstadia reservas[], int tamReservas , sDuenio listaDuenios[], int tamDuenios)
 {
@@ -417,7 +391,6 @@ int estadia_ordenarPorFecha (sEstadia reservas[], int tamReservas , sDuenio list
 	if (reservas != NULL)
 	{
 		nuevoLimite = tamReservas - 1;
-
 		do
 		{
 			swap = 0;
@@ -444,20 +417,19 @@ int estadia_ordenarPorFecha (sEstadia reservas[], int tamReservas , sDuenio list
 			nuevoLimite--;
 
 		}while (swap == 1);
-
-		ret = 0;
+	ret = 0;
 	}
 	return ret;
 }
 
-
-
 /**
- * @fn void estadia_mostrarSoloEstadia(sEstadia[], int)
- * @brief imprime todas las reservas realizadas
+ * @fn void estadia_mostrarSoloEstadia(sEstadia[], int, sDuenio[], int)
+ * @brief muestra ID_ESTADIA-FECHA de las estadias con estado = 1
  *
  * @param reservas recibe un array sEstadia
- * @param tamReservas recibe el tamaño del array
+ * @param tamReservas recibe el tamanio de ese array sEstadia
+ * @param listaDuenios recibe un array sDuenio
+ * @param tamDuenios recibe el tamanio de ese array sDuenio
  */
 void estadia_mostrarSoloEstadia (sEstadia reservas[] , int tamReservas, sDuenio listaDuenios[], int tamDuenios)
 {
@@ -466,18 +438,16 @@ void estadia_mostrarSoloEstadia (sEstadia reservas[] , int tamReservas, sDuenio 
 	if (reservas != NULL && listaDuenios != NULL)
 	{
 		estadia_ordenarPorFecha (reservas, tamReservas, listaDuenios, tamDuenios);
-
 		printf("\n%-15s %-15s\n", "ID ESTADIA", "FECHA");
-
 		for(i = 0; i < tamReservas; i++)
 		{
 			if (reservas[i].estado == 1)
 			{
 				printf("%-15d %-2d/%-2d/%-2d\n",
-															reservas[i].id,
-															reservas[i].fecha.dia,
-															reservas[i].fecha.mes,
-															reservas[i].fecha.anio);
+												reservas[i].id,
+												reservas[i].fecha.dia,
+												reservas[i].fecha.mes,
+												reservas[i].fecha.anio);
 			}
 		}
 	}

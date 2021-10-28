@@ -1,9 +1,3 @@
-/*
- * nexo.h
- *
- *  Created on: 15 oct. 2021
- *      Author: Fede
- */
 
 #ifndef NEXO_H_
 #include <stdio.h>
@@ -14,7 +8,6 @@
 #include "estadia.h"
 #include "duenio.h"
 #define NEXO_H_
-
 
 void nexo_mostrarPerrosConDuenios (sPerro listaPerros[] , int tamPerros, sDuenio listaDuenios[], int tamDuenios);
 void nexo_mostrarEstadiasCompletas (sEstadia reservas[], int tamEstadias, sPerro listaPerros[], int tamPerros, sDuenio listaDuenios[], int tamDuenios);

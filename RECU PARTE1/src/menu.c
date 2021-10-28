@@ -5,48 +5,46 @@
 #include "duenio.h"
 
 /**
- * @fn int menu(sEstadia[], int, sPerro[], int, int, int)
- * @brief contiene la lógica del programa, muestra los menus de opciones y sus distintos posibles flujos
+ * @fn int menu(sEstadia[], int, sPerro[], int, sDuenio[], int, int, int, int)
+ * @brief contiene toda la logica del programa
  *
- * @param listaEstadias recibe un array de sEstadia
- * @param tamEstadias recibe el tamaño del array listaEstadia
- * @param listaPerros recibe un array de sPerro
- * @param tamPerros recibe el tamaño del array listaPerros
- * @param uIdEstadia recibe el último id correspondiente a las estadías
- * @param uIdPerro recibe el último id correspondiente a los perros
- * @return retorna 0 si funcionó correctamente.
+ * @param listaEstadias recibe un array sEstadia
+ * @param tamEstadias recibe el tamanio del array sEstadia
+ * @param listaPerros recibe un array sPerro
+ * @param tamPerros recibe el tamanio del array sPerro
+ * @param listaDuenios recibe un array sDuenio
+ * @param tamDuenios recibe el tamanio del array sDuenio
+ * @param uIdEstadia recibe el ultimo ID correspondiente a la estadia
+ * @param uIdPerro recibe el ultimo ID correspondiente a los perros
+ * @param uIdDuenio recibe el ultimo ID correspondiente a los duenios
+ * @return retorna 0 si funciono o -1 si hubo error
  */
 int menu (sEstadia listaEstadias[], int tamEstadias , sPerro listaPerros[] , int tamPerros, sDuenio listaDuenios [], int tamDuenios , int uIdEstadia ,int uIdPerro,int uIdDuenio)
 {
+	int ret = -1;
 	int opcion;
-
+	int cancelacion;
+	int opcionSubMenu;
+	int respuestaNuevoPerro;
 	int auxUltimoIdPerro;
-	int contadorPerros = 3;
-
 	int auxUltimoIdDuenio;
-	int contadorDuenios = 5;
-
 	int auxUltimoIdEstadia;
+	int auxNuevoTelefono;
+	sPerro auxNuevoPerro;
+	int contadorPerros = 3;
+	int contadorDuenios = 5;
 	int contadorEstadias = 0;
-
 	int flagPerro;
 	int flagDuenio;
 	int flagEstadias;
-
+	int nuevoIdPerro;
+	int idSearch;
+	int posicion;
+	int posNuevoIdPerro;
+	int posPerroAnterior;
+	int posPerroConMasEstadias;
 	float edadPromedio;
 
-	int idSearch;
-	int cancelacion;
-
-	int posicion;
-	int opcionSubMenu;
-	int auxNuevoTelefono;
-	int nuevoIdPerro;
-	int posNuevoIdPerro;
-	int respuestaNuevoPerro;
-	sPerro auxNuevoPerro;
-	int posPerroConMasEstadias;
-	int posPerroAnterior;
 
 	if (listaEstadias != NULL && listaPerros != NULL && listaDuenios != NULL)
 	{
@@ -91,9 +89,7 @@ int menu (sEstadia listaEstadias[], int tamEstadias , sPerro listaPerros[] , int
 
 			case 1:
 
-				printf( "\n-------------------------------------------\n"
-						"RESERVANDO UNA ESTADIA...\n");
-
+				printf( "\n-------------------------------------------\nRESERVANDO UNA ESTADIA...\n");
 				getInt(&flagPerro,"\nDesea cargar un perro? (0 = no / 1 = si): ","ERROR. Reingrese una opcion válida (0 = no / 1 = si): ",0,1 );
 				if (flagPerro == 1)
 				{
@@ -111,7 +107,6 @@ int menu (sEstadia listaEstadias[], int tamEstadias , sPerro listaPerros[] , int
 						systemPause("\nPresione una tecla para continuar...\n");
 					}
 				}
-
 
 				getInt (&flagDuenio,"\nDesea cargar un dueño? (0 = no / 1 = si): ",
 									"\n----------------------------------------------------------------\n"
@@ -195,7 +190,6 @@ int menu (sEstadia listaEstadias[], int tamEstadias , sPerro listaPerros[] , int
 									case 1:
 
 										printf("\nModificando el teléfono de contacto...\n");
-
 										auxNuevoTelefono = estadia_modificar (1);
 										if (auxNuevoTelefono != -1)
 										{
@@ -210,7 +204,6 @@ int menu (sEstadia listaEstadias[], int tamEstadias , sPerro listaPerros[] , int
 											systemPause("\nPresione una tecla para continuar...\n");
 										}
 										break;
-
 
 									case 2:
 
@@ -247,13 +240,11 @@ int menu (sEstadia listaEstadias[], int tamEstadias , sPerro listaPerros[] , int
 										}
 										break;
 
-
 									case 3:
 
 										printf("\nVolviendo al menú principal...\n");
 										break;
 									}
-
 
 							}while (opcionSubMenu != 3);
 
@@ -264,7 +255,6 @@ int menu (sEstadia listaEstadias[], int tamEstadias , sPerro listaPerros[] , int
 							printf("\nERROR. El ID ingresado no coincide con ninguno.");
 						}
 
-
 					}
 					else
 					{
@@ -273,13 +263,11 @@ int menu (sEstadia listaEstadias[], int tamEstadias , sPerro listaPerros[] , int
 
 					break;
 
-
 			case 3:
 
 				if( flagEstadias == 1 && contadorEstadias > 0)
 				{
 					printf("\nCancelando estadía...\n");
-
 					nexo_mostrarEstadiasCompletas(listaEstadias, tamEstadias, listaPerros, tamPerros, listaDuenios, tamDuenios);
 					getInt(&idSearch, "\nIngrese el ID DE LA ESTADIA A CANCELAR: ", "\nError. Reingrese un ID existente: ", 100000,199999);
 					while ( estadia_buscarExistenciaId (listaEstadias , tamEstadias , idSearch) == -1)
@@ -310,7 +298,6 @@ int menu (sEstadia listaEstadias[], int tamEstadias , sPerro listaPerros[] , int
 
 				break;
 
-
 			case 4:
 
 				if(flagEstadias == 1 && contadorEstadias > 0)
@@ -326,7 +313,6 @@ int menu (sEstadia listaEstadias[], int tamEstadias , sPerro listaPerros[] , int
 
 				break;
 
-
 			case 5:
 				if (contadorPerros > 0)
 				{
@@ -341,7 +327,6 @@ int menu (sEstadia listaEstadias[], int tamEstadias , sPerro listaPerros[] , int
 				}
 
 				break;
-
 
 			case 6:
 				if (contadorPerros > 1)
@@ -374,7 +359,6 @@ int menu (sEstadia listaEstadias[], int tamEstadias , sPerro listaPerros[] , int
 				}
 
 				break;
-
 
 			case 8:
 
@@ -409,7 +393,8 @@ int menu (sEstadia listaEstadias[], int tamEstadias , sPerro listaPerros[] , int
 
 		}while (opcion != 9);
 	}
+	ret = 0;
 
-	return 0;
+	return ret;
 }
 

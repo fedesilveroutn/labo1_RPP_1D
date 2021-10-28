@@ -2,8 +2,6 @@
 #include <string.h>
 #include "input.h"
 
-
-
 /**
  * @fn int getInt(int*, char*, char*, int, int)
  * @brief pide un entero y valida que se encuentre en el rango indicado
@@ -25,22 +23,17 @@ int getInt (int* num, char* message, char* errorMessage, int min, int max)
 		printf("%s", message);
 		fflush(stdin);
 		scanf("%d", &enteredNum);
-
-			while(enteredNum < min || enteredNum > max)
-			{
-				printf("%s", errorMessage);
-				fflush(stdin);
-				scanf("%d", &enteredNum);
-			}
-
+		while(enteredNum < min || enteredNum > max)
+		{
+			printf("%s", errorMessage);
+			fflush(stdin);
+			scanf("%d", &enteredNum);
+		}
 		*num = enteredNum;
 		ret = 0;
 	}
-
 	return ret;
 }
-
-
 
 /**
  * @fn int getFloat(float*, char*, char*, int, int)
@@ -63,22 +56,17 @@ int getFloat(float* num, char* message, char* errorMessage, int min, int max)
 		printf("%s", message);
 		fflush(stdin);
 		scanf("%f", &enteredNum);
-
-			while(enteredNum < min || enteredNum > max)
-			{
-				printf("%s", errorMessage);
-				fflush(stdin);
-				scanf("%f", &enteredNum);
-			}
-
+		while(enteredNum < min || enteredNum > max)
+		{
+			printf("%s", errorMessage);
+			fflush(stdin);
+			scanf("%f", &enteredNum);
+		}
 		*num = enteredNum;
 		ret = 0;
 	}
-
 	return ret;
 }
-
-
 
 /**
  * @fn void getString(char*, char*, char*, int)
@@ -98,26 +86,22 @@ void getString (char* string, char* message, char* errorMessage, int max)
 	fflush(stdin);
 	scanf("%[^\n]", unvalidatedString);
 	tam = strlen (unvalidatedString);
-
-		while (tam > max)
-		{
-			printf("%s", errorMessage);
-			fflush(stdin);
-			scanf("%[^\n]", unvalidatedString);
-			tam = strlen (unvalidatedString);
-		}
-
+	while (tam > max)
+	{
+		printf("%s", errorMessage);
+		fflush(stdin);
+		scanf("%[^\n]", unvalidatedString);
+		tam = strlen (unvalidatedString);
+	}
 	strcpy (string, unvalidatedString);
 }
 
-
-
 /**
  * @fn int systemPause(char*)
- * @brief
+ * @brief pausa la ejecucion del programa momentaneamente hasta que el usuario presione alguna tecla
  *
- * @param message
- * @return
+ * @param message recibe un mensaje para ser mostrado al usuario
+ * @return retonra 0 si funcionó y -1 si hubo error
  */
 int systemPause(char* message)
 {

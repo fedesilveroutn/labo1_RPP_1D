@@ -13,7 +13,6 @@ typedef struct
 	int anio;
 } sFecha;
 
-
 sFecha fecha_pedir (char* mensaje);
 
 #endif /* FECHA_H_ */
