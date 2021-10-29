@@ -13,8 +13,8 @@ sFecha fecha_pedir (char* mensaje)
 	sFecha fecha;
 
 	printf("%s", mensaje);
-	getInt(&fecha.dia , "\nIngrese el día: ", "\nError. Ingrese día válido (1-30): ", 1 , 30);
-	getInt(&fecha.mes , "Ingrese el mes: ", "\nError. Ingrese mes válido (1-12): ", 1 , 12);
-	getInt(&fecha.anio , "Ingrese el año: ", "\nError. Ingrese año válido (2020-2030): ", 2020 , 2030);
+	getInt(&fecha.dia , "\nIngrese el día(1-30): ", "\nError. Ingrese día válido (1-30): ", 1 , 30);
+	getInt(&fecha.mes , "Ingrese el mes(1-12): ", "\nError. Ingrese mes válido (1-12): ", 1 , 12);
+	getInt(&fecha.anio , "Ingrese el año(2021-2030): ", "\nError. Ingrese año válido (2021-2030): ", 2021 , 2030);
 	return fecha;
 }

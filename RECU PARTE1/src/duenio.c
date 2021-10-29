@@ -174,20 +174,6 @@ int duenio_verificar (sDuenio duenio)
 }
 
 /**
- * @fn void duenio_mostrar(sDuenio)
- * @brief muestra ID-NOMBRE-TELEFONO de una variable sDuenio
- *
- * @param duenio recibe una variable tipo sDuenio
- */
-void duenio_mostrar (sDuenio duenio)
-{
-	if (duenio.estado == 1 )
-	{
-		printf("%-20d %-20s %-20d\n", duenio.id, duenio.nombre, duenio.telefono);
-	}
-}
-
-/**
  * @fn void duenio_mostrarTodos(sDuenio[], int)
  * @brief muestra ID-NOMBRE-TELEFONO de todos los elementos de array sDuenio
  *
@@ -211,17 +197,17 @@ void duenio_mostrarTodos (sDuenio listaDuenios[], int tamDuenios)
 }
 
 /**
- * @fn int duenio_pedirNuevoTelefono()
- * @brief solicita al usuario el ingreso de un nuevo telefono
+ * @fn void duenio_mostrar(sDuenio)
+ * @brief muestra ID-NOMBRE-TELEFONO de una variable sDuenio
  *
- * @return retorna el nuevo telefono
+ * @param duenio recibe una variable tipo sDuenio
  */
-int duenio_pedirNuevoTelefono ()
+void duenio_mostrar (sDuenio duenio)
 {
-	int telefono;
-
-	getInt (&telefono, "Ingrese el nuevo TELEFONO: ", "Error. Ingrese un teléfono válido (1100000000-1199999999): ", 1100000000 , 1199999999);
-	return telefono;
+	if (duenio.estado == 1 )
+	{
+		printf("%-20d %-20s %-20d\n", duenio.id, duenio.nombre, duenio.telefono);
+	}
 }
 
 /**
@@ -250,5 +236,21 @@ int duenio_buscarCoincidenciaId (sDuenio lista[] , int tam, int id)
 	}
 	return posicion;
 }
+
+/**
+ * @fn int duenio_pedirNuevoTelefono()
+ * @brief solicita al usuario el ingreso de un nuevo telefono
+ *
+ * @return retorna el nuevo telefono
+ */
+int duenio_pedirNuevoTelefono ()
+{
+	int telefono;
+
+	getInt (&telefono, "Ingrese el nuevo TELEFONO: ", "Error. Ingrese un teléfono válido (1100000000-1199999999): ", 1100000000 , 1199999999);
+	return telefono;
+}
+
+
 
 

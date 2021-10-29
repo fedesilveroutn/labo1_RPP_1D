@@ -21,9 +21,9 @@ int duenio_cargar (sDuenio listaDuenios[], int tamDuenios, int ultimoIdDuenio);
 int duenio_buscarLugar(sDuenio listaDuenios[], int tamDuenios);
 sDuenio duenio_pedirDatos (sDuenio duenio , int ultimoIdDuenio);
 int duenio_verificar (sDuenio duenio);
-void duenio_mostrar (sDuenio duenio);
 void duenio_mostrarTodos (sDuenio listaDuenios[], int tamDuenios);
-int duenio_pedirNuevoTelefono ();
+void duenio_mostrar (sDuenio duenio);
 int duenio_buscarCoincidenciaId (sDuenio lista[] , int tam, int id);
+int duenio_pedirNuevoTelefono ();
 
 #endif /* DUENIO_H_ */

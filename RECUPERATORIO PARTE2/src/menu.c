@@ -392,8 +392,9 @@ int menu (sEstadia listaEstadias[], int tamEstadias , sPerro listaPerros[] , int
 			}
 
 		}while (opcion != 9);
-	}
+
 	ret = 0;
+	}
 
 	return ret;
 }

@@ -86,6 +86,53 @@ int perro_hardcodear (sPerro lista[])
 }
 
 /**
+ * @fn int perro_cargar(sPerro[], int, int)
+ * @brief realiza la carga de una variable sPerro
+ *
+ * @param lista recibe un array sPerro
+ * @param tam recibe el tamaño del array
+ * @param ultimoIdPerro recibe el último ID correspondiente a sPerro
+ * @return retorna el último ID actualizado o -1 si hubo un error
+ */
+int perro_cargar (sPerro lista[] , int tam , int ultimoIdPerro)
+{
+	sPerro aux;
+	int ret = -1;
+	int confirmacion;
+	int index;
+
+	if (lista != NULL)
+	{
+		if (perro_buscarLugar (lista , tam) != -1)
+		{
+			aux = perro_pedirDatos (aux , ultimoIdPerro);
+			confirmacion = perro_verificar (aux);
+			if(confirmacion == 1)
+			{
+				index = perro_buscarLugar (lista , tam);
+				lista[index] = aux;
+				lista[index].estado = 1;
+				lista[index].contadorEstadia = 0;
+				ultimoIdPerro++;
+				printf("\n***PERRO CARGADO EXITOSAMENTE!***");
+				ret = ultimoIdPerro;
+			}
+
+			else
+			{
+				printf("\nUsted ha cancelado la carga del perro.\n");
+			}
+		}
+
+		else
+		{
+			printf("\nNo hay lugar disponible para la carga del perro.");
+		}
+	}
+	return ret;
+}
+
+/**
  * @fn int perro_buscarLugar(sPerro[], int)
  * @brief
  *
@@ -108,36 +155,6 @@ int perro_buscarLugar (sPerro lista[] , int tam)
 			}
 		}
 	}
-
-	return posicion;
-}
-
-/**
- * @fn int perro_buscarCoincidenciaId(sPerro[], int, int)
- * @brief busca en que posicion del array sPerro hay una coincidencia entre el ID pasado por parametro y
- * 		  el ID correspondiente al campo id de la estructura sPerro y si la encuentra retorna esa posicion
- *
- * @param lista recibe un array sPerro
- * @param tam recibe el tamaño del array
- * @param id recibe un ID con el cual hacer la comparación
- * @return retorna la posicion donde encontró la coincidencia entre el id parametro y el ID del campo sPerro o -1 si no hay coincidencia
- */
-int perro_buscarCoincidenciaId (sPerro lista[] , int tam, int id)
-{
-	int posicion = -1;
-	int i;
-	if (lista != NULL)
-	{
-		for ( i = 0 ; i < tam ; i++)
-		{
-			if (lista[i].id == id)
-			{
-				posicion = i;
-				break;
-			}
-		}
-	}
-
 	return posicion;
 }
 
@@ -191,51 +208,78 @@ int perro_verificar (sPerro perro)
 }
 
 /**
- * @fn int perro_cargar(sPerro[], int, int)
- * @brief realiza la carga de una variable sPerro
+ * @fn void perro_mostrarTodos(sPerro[], int)
+ * @brief muestra ID-NOMBRE-RAZA-EDAD de todos  los elementos del array sPerro ordenados según su ID (o nombre si estos son iguales)
  *
  * @param lista recibe un array sPerro
- * @param tam recibe el tamaño del array
- * @param ultimoIdPerro recibe el último ID correspondiente a sPerro
- * @return retorna el último ID actualizado o -1 si hubo un error
+ * @param tamPerros recibe el tamaño del array
  */
-int perro_cargar (sPerro lista[] , int tam , int ultimoIdPerro)
+void perro_mostrarTodos (sPerro lista[] , int tamPerros)
 {
-	sPerro aux;
-	int ret = -1;
-	int confirmacion;
-	int index;
+	int i;
 
 	if (lista != NULL)
 	{
-		if (perro_buscarLugar (lista , tam) != -1)
+		perro_ordenarPorId (lista , tamPerros);
+		printf("\n----------------------------------------------------------------------------------------");
+		printf("\n%-20s %-20s %-20s %-20s\n", "ID PERRO", "NOMBRE", "RAZA", "EDAD");
+		for (i = 0; i < tamPerros; i++)
 		{
-			aux = perro_pedirDatos (aux , ultimoIdPerro);
-			confirmacion = perro_verificar (aux);
-			if(confirmacion == 1)
+			if (lista[i].estado == 1)
 			{
-				index = perro_buscarLugar (lista , tam);
-				lista[index] = aux;
-				lista[index].estado = 1;
-				lista[index].contadorEstadia = 0;
-				ultimoIdPerro++;
-				printf("\n***PERRO CARGADO EXITOSAMENTE!***");
-				ret = ultimoIdPerro;
-			}
-
-			else
-			{
-				printf("\nUsted ha cancelado la carga del perro.\n");
+				perro_mostrar(lista[i]);
 			}
 		}
+		printf("\n----------------------------------------------------------------------------------------\n");
+	}
+}
 
-		else
+/**
+ * @fn void perro_mostrar(sPerro)
+ * @brief muestra los datos ID-NOMBRE-RAZA-EDAD cargados en la variable tipo sPerro pasada por parámetro
+ *
+ * @param perro recibe una variable tipo sPerro
+ */
+void perro_mostrar (sPerro perro)
+{
+	if (perro.estado == 1 )
+	{
+		printf("\n%-20d %-20s %-20s %-20d", perro.id, perro.nombre, perro.raza, perro.edad);
+	}
+}
+
+/**
+ * @fn int perro_buscarCoincidenciaId(sPerro[], int, int)
+ * @brief busca en que posicion del array sPerro hay una coincidencia entre el ID pasado por parametro y
+ * 		  el ID correspondiente al campo id de la estructura sPerro y si la encuentra retorna esa posicion
+ *
+ * @param lista recibe un array sPerro
+ * @param tam recibe el tamaño del array
+ * @param id recibe un ID con el cual hacer la comparación
+ * @return retorna la posicion donde encontró la coincidencia entre el id parametro y el ID del campo sPerro o -1 si no hay coincidencia
+ */
+int perro_buscarCoincidenciaId (sPerro lista[] , int tam, int id)
+{
+	int posicion = -1;
+	int i;
+	if (lista != NULL)
+	{
+		for ( i = 0 ; i < tam ; i++)
 		{
-			printf("\nNo hay lugar disponible para la carga del perro.");
+			if (lista[i].id == id)
+			{
+				posicion = i;
+				break;
+			}
 		}
 	}
-	return ret;
+
+	return posicion;
 }
+
+
+
+
 
 /**
  * @fn int perro_ordenarPorId(sPerro[], int)
@@ -286,47 +330,6 @@ int perro_ordenarPorId (sPerro lista[], int tamPerros)
 		ret = 0;
 	}
 	return ret;
-}
-
-/**
- * @fn void perro_mostrar(sPerro)
- * @brief muestra los datos ID-NOMBRE-RAZA-EDAD cargados en la variable tipo sPerro pasada por parámetro
- *
- * @param perro recibe una variable tipo sPerro
- */
-void perro_mostrar (sPerro perro)
-{
-	if (perro.estado == 1 )
-	{
-		printf("\n%-20d %-20s %-20s %-20d", perro.id, perro.nombre, perro.raza, perro.edad);
-	}
-}
-
-/**
- * @fn void perro_mostrarTodos(sPerro[], int)
- * @brief muestra ID-NOMBRE-RAZA-EDAD de todos  los elementos del array sPerro ordenados según su ID (o nombre si estos son iguales)
- *
- * @param lista recibe un array sPerro
- * @param tamPerros recibe el tamaño del array
- */
-void perro_mostrarTodos (sPerro lista[] , int tamPerros)
-{
-	int i;
-
-	if (lista != NULL)
-	{
-		perro_ordenarPorId (lista , tamPerros);
-		printf("\n----------------------------------------------------------------------------------------");
-		printf("\n%-20s %-20s %-20s %-20s\n", "ID PERRO", "NOMBRE", "RAZA", "EDAD");
-		for (i = 0; i < tamPerros; i++)
-		{
-			if (lista[i].estado == 1)
-			{
-				perro_mostrar(lista[i]);
-			}
-		}
-		printf("\n----------------------------------------------------------------------------------------\n");
-	}
 }
 
 /**

@@ -5,36 +5,6 @@
 #include "nexo.h"
 
 
-
-/**
- * @fn void nexo_mostrarPerrosConDuenios(sPerro[], int, sDuenio[], int)
- * @brief muestra NOMBRE_PERRO-RAZA-ID_PERRO-NOMBRE_DUEÑO-TELEFONO-ID_DUENIO
- *
- * @param listaPerros recibe un array sPerro
- * @param tamPerros recibe el tamanio de ese array sPerro
- * @param listaDuenios recibe un array sDuenio
- * @param tamDuenios recibe el tamanio de ese array sDuenio
- */
-void nexo_mostrarPerrosConDuenios (sPerro listaPerros[] , int tamPerros, sDuenio listaDuenios[], int tamDuenios)
-{
-	int i;
-
-	if (listaPerros != NULL && listaDuenios != NULL)
-	{
-		printf("\n----------------------------------------------------------------\nPERROS Y DUEÑOS CARGADOS EN EL SISTEMA:\n");
-		printf("\n%-20s %-20s %-20s %-20s %-20s %-20s \n",
-			   "NOMBRE PERRO", "RAZA", "ID PERRO", "NOMBRE DUEÑO", "TELEFONO", "ID DUENIO" );
-		for (i = 0; i < tamPerros; i++)
-		{
-			if (listaPerros[i].estado != 0 && listaDuenios[i].estado != 0)
-			{
-				printf("\n%-20s %-20s %-20d %-20s %-20d %-20d", listaPerros[i].nombre, listaPerros[i].raza, listaPerros[i].id, listaDuenios[i].nombre, listaDuenios[i].telefono,  listaDuenios[i].id);
-			}
-		}
-
-	}
-}
-
 /**
  * @fn void nexo_mostrarEstadiasCompletas(sEstadia[], int, sPerro[], int, sDuenio[], int)
  * @brief muestra ID_ESTADIA-NOMBRE_PERRO-RAZA-EDAD-NOMBRE_DUEÑO-TELEFONO-FECHA
@@ -70,6 +40,35 @@ void nexo_mostrarEstadiasCompletas (sEstadia reservas[], int tamEstadias, sPerro
 			}
 		}
 		printf( "------------------------------------------------------------------------------------------------------------------------------\n");
+	}
+}
+
+/**
+ * @fn void nexo_mostrarPerrosConDuenios(sPerro[], int, sDuenio[], int)
+ * @brief muestra NOMBRE_PERRO-RAZA-ID_PERRO-NOMBRE_DUEÑO-TELEFONO-ID_DUENIO
+ *
+ * @param listaPerros recibe un array sPerro
+ * @param tamPerros recibe el tamanio de ese array sPerro
+ * @param listaDuenios recibe un array sDuenio
+ * @param tamDuenios recibe el tamanio de ese array sDuenio
+ */
+void nexo_mostrarPerrosConDuenios (sPerro listaPerros[] , int tamPerros, sDuenio listaDuenios[], int tamDuenios)
+{
+	int i;
+
+	if (listaPerros != NULL && listaDuenios != NULL)
+	{
+		printf("\n----------------------------------------------------------------\nPERROS Y DUEÑOS CARGADOS EN EL SISTEMA:\n");
+		printf("\n%-20s %-20s %-20s %-20s %-20s %-20s \n",
+			   "NOMBRE PERRO", "RAZA", "ID PERRO", "NOMBRE DUEÑO", "TELEFONO", "ID DUENIO" );
+		for (i = 0; i < tamPerros; i++)
+		{
+			if (listaPerros[i].estado != 0 && listaDuenios[i].estado != 0)
+			{
+				printf("\n%-20s %-20s %-20d %-20s %-20d %-20d", listaPerros[i].nombre, listaPerros[i].raza, listaPerros[i].id, listaDuenios[i].nombre, listaDuenios[i].telefono,  listaDuenios[i].id);
+			}
+		}
+
 	}
 }
 

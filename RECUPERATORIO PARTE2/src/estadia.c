@@ -25,6 +25,63 @@ int estadia_inicializar (sEstadia reservas[], int tam)
 }
 
 /**
+ * @fn int estadia_reservar(sEstadia[], int, int, sPerro[], int, sDuenio[], int)
+ * @brief realiza la reserva de una estadia
+ *
+ * @param reserva recibe un array sEstadia
+ * @param tam recibe el tamanio de ese array sEstadia
+ * @param ultimoId recibe el ultimo ID correspondiente a la estadia
+ * @param listaPerros recibe un array sPerro
+ * @param tamPerro recibe el tamanio del array sPerro
+ * @param listaDuenios recibe un array sDuenio
+ * @param tamDuenio recibe el tamanio de ese array sDuenio
+ * @return retorna el ultimo ID actualizado si salio bien o -1 si hubo error
+ */
+int estadia_reservar (sEstadia reserva[] , int tam , int ultimoId , sPerro listaPerros[] , int tamPerro, sDuenio listaDuenios[] , int tamDuenio)
+{
+	sEstadia aux;
+	int ret = -1;
+	int confirmacion;
+	int index;
+	int posicionIdPerro;
+	int posicionIdDuenio;
+	int posPerro;
+
+	if (reserva != NULL && listaPerros != NULL && listaDuenios != NULL)
+	{
+		if (estadia_buscarLugar (reserva , tam) != -1)
+		{
+			aux = estadia_pedirDatos (aux , ultimoId , listaPerros , tamPerro , listaDuenios, tamDuenio);
+			posicionIdPerro = perro_buscarCoincidenciaId(listaPerros, tamPerro, aux.idPerro);
+			posicionIdDuenio = duenio_buscarCoincidenciaId(listaDuenios, tamDuenio, aux.idDuenio);
+			printf("\nDatos de la estadia A CONFIRMAR:");
+			confirmacion = estadia_verificar (aux, listaPerros[posicionIdPerro], listaDuenios[posicionIdDuenio]);
+			if(confirmacion == 1)
+			{
+				index = estadia_buscarLugar (reserva , tam);
+				reserva[index] = aux;
+				reserva[index].estado = 1;
+				posPerro = perro_buscarCoincidenciaId(listaPerros, tamPerro, reserva[index].idPerro);
+				listaPerros[posPerro].contadorEstadia++;
+				ultimoId++;
+				ret = ultimoId;
+			}
+
+			else
+			{
+				printf("\nUsted ha cancelado la reserva.\n");
+			}
+		}
+
+		else
+		{
+			printf("\nNo hay lugar disponible para reservar.\n");
+		}
+	}
+	return ret;
+}
+
+/**
  * @fn int estadia_buscarLugar(sEstadia[], int)
  * @brief  busca un lugar vacio, es decir, con estado cero
  *
@@ -48,6 +105,76 @@ int estadia_buscarLugar (sEstadia reserva[] , int tam)
 		}
 	}
 	return posicion;
+}
+
+/**
+ * @fn sEstadia estadia_pedirDatos(sEstadia, int, sPerro[], int, sDuenio, int)
+ * @brief pide los datos para cargar un array sEstadia
+ *
+ * @param auxiliar recibe una variable de tipo sEstadia
+ * @param ultimoId recibe el último ID correspondiente a la estadía
+ * @param lista recibe un array sPerro
+ * @param tam recibe el tamaño del array sPerro
+ * @return retorna el auxiliar cargado con los datos ingresados
+ */
+sEstadia estadia_pedirDatos (sEstadia auxiliar , int ultimoId , sPerro listaPerros[] , int tamPerro, sDuenio listaDuenios[], int tamDuenio)
+{
+	int id;
+	int idPerro;
+	int idDuenio;
+	sFecha fecha;
+
+	if (listaPerros != NULL && listaDuenios != NULL)
+	{
+		id = ultimoId + 1;
+		perro_mostrarTodos(listaPerros, tamPerro);
+		getInt (&idPerro, "\nIngrese el ID del perro para el cual quiere reservar una estadía: ", "Error. Ingrese un ID válido: ", 1000 , 10000);
+		while (estadia_buscarCoincidenciaId (listaPerros, tamPerro , idPerro) == -1)
+		{
+			printf("Error. ID de perro inexistente. Reintente.\n");
+			getInt (&idPerro, "Ingrese el ID del perro: ", "Error. Ingrese un ID válido: ", 1000 , 2000);
+		}
+		duenio_mostrarTodos(listaDuenios, tamDuenio);
+		getInt (&idDuenio, "\nIngrese el ID del DUEÑO de ese perro: ", "\nError. Ingrese un ID válido: ", 30000 , 40000);
+		while (estadia_buscarCoincidenciaIdDuenio (listaDuenios , tamDuenio , idDuenio) == -1 )
+		{
+			printf("\nError. ID de dueño inexistente. Reintente.\n");
+			getInt (&idDuenio, "\nIngrese el ID del dueño: ", "\nError. Ingrese un ID válido: ", 30000 , 40000);
+			printf("\n----------------------------------------------------------------------------------------\n");
+		}
+		fecha = fecha_pedir("\nFecha de la reserva...\n");
+		auxiliar.id = id;
+		auxiliar.idPerro = idPerro;
+		auxiliar.idDuenio = idDuenio;
+		auxiliar.fecha = fecha;
+		auxiliar.estado = 1;
+	}
+	return auxiliar;
+}
+
+/**
+ * @fn int estadia_verificar(sEstadia, sPerro, sDuenio)
+ * @brief muestra ID ESTADIA-NOMBRE_PERRO-RAZA-NOMBRE_DUEÑO-TELEFONO-FECHA y solicita al usuario que confirme los datos ingresados
+ * 		  para luego retornar la respuesta
+ *
+ * @param reserva recibe una variable del tipo sEstadia
+ * @param perro recibe una variable del tipo sPerro
+ * @param duenio recibe una variable del tipo sDuenio
+ * @return retorna la respuesta ingresada por el usuario siendo (0 = no / 1 = si)
+ */
+int estadia_verificar (sEstadia reserva, sPerro perro, sDuenio duenio)
+{
+	int respuesta;
+
+	if (reserva.estado == 1)
+	{
+		printf("\n------------------------------------------------------------------------------------------------------------------------\n");
+		printf("\n%-20s %-20s %-20s %-20s %-20s %-20s\n", "ID ESTADIA", "NOMBRE PERRO", "RAZA", "NOMBRE DUEÑO", "TELEFONO", "FECHA");
+		printf("\n%-20d %-20s %-20s %-20s %-20d %d/%d/%d",	reserva.id , perro.nombre, perro.raza, duenio.nombre, duenio.telefono, reserva.fecha.dia , reserva.fecha.mes, reserva.fecha.anio );
+		printf("\n------------------------------------------------------------------------------------------------------------------------\n");
+		getInt (&respuesta, "\nDesea CONFIRMAR los datos de la estadia (0 = no / 1 = si)? : ", "Error. Elija una opcion (0 = no / 1 = si): ", 0 , 1);
+	}
+	return respuesta;
 }
 
 /**
@@ -153,133 +280,6 @@ int estadia_buscarCoincidenciaIdDuenio (sDuenio listaDuenios[] , int tamDuenio ,
 				ret = 0;
 				break;
 			}
-		}
-	}
-	return ret;
-}
-
-/**
- * @fn sEstadia estadia_pedirDatos(sEstadia, int, sPerro[], int, sDuenio, int)
- * @brief pide los datos para cargar un array sEstadia
- *
- * @param auxiliar recibe una variable de tipo sEstadia
- * @param ultimoId recibe el último ID correspondiente a la estadía
- * @param lista recibe un array sPerro
- * @param tam recibe el tamaño del array sPerro
- * @return retorna el auxiliar cargado con los datos ingresados
- */
-sEstadia estadia_pedirDatos (sEstadia auxiliar , int ultimoId , sPerro listaPerros[] , int tamPerro, sDuenio listaDuenios[], int tamDuenio)
-{
-	int id;
-	int idPerro;
-	int idDuenio;
-	sFecha fecha;
-
-	if (listaPerros != NULL && listaDuenios != NULL)
-	{
-		id = ultimoId + 1;
-		perro_mostrarTodos(listaPerros, tamPerro);
-		getInt (&idPerro, "\nIngrese el ID del perro para el cual quiere reservar una estadía: ", "Error. Ingrese un ID válido: ", 1000 , 10000);
-		while (estadia_buscarCoincidenciaId (listaPerros, tamPerro , idPerro) == -1)
-		{
-			printf("Error. ID de perro inexistente. Reintente.\n");
-			getInt (&idPerro, "Ingrese el ID del perro: ", "Error. Ingrese un ID válido: ", 1000 , 2000);
-		}
-		duenio_mostrarTodos(listaDuenios, tamDuenio);
-		getInt (&idDuenio, "\nIngrese el ID del DUEÑO de ese perro: ", "\nError. Ingrese un ID válido: ", 30000 , 40000);
-		while (estadia_buscarCoincidenciaIdDuenio (listaDuenios , tamDuenio , idDuenio) == -1 )
-		{
-			printf("\nError. ID de dueño inexistente. Reintente.\n");
-			getInt (&idDuenio, "\nIngrese el ID del dueño: ", "\nError. Ingrese un ID válido: ", 30000 , 40000);
-			printf("\n----------------------------------------------------------------------------------------\n");
-		}
-		fecha = fecha_pedir("\nFecha de la reserva...\n");
-		auxiliar.id = id;
-		auxiliar.idPerro = idPerro;
-		auxiliar.idDuenio = idDuenio;
-		auxiliar.fecha = fecha;
-		auxiliar.estado = 1;
-	}
-	return auxiliar;
-}
-
-/**
- * @fn int estadia_verificar(sEstadia, sPerro, sDuenio)
- * @brief muestra ID ESTADIA-NOMBRE_PERRO-RAZA-NOMBRE_DUEÑO-TELEFONO-FECHA y solicita al usuario que confirme los datos ingresados
- * 		  para luego retornar la respuesta
- *
- * @param reserva recibe una variable del tipo sEstadia
- * @param perro recibe una variable del tipo sPerro
- * @param duenio recibe una variable del tipo sDuenio
- * @return retorna la respuesta ingresada por el usuario siendo (0 = no / 1 = si)
- */
-int estadia_verificar (sEstadia reserva, sPerro perro, sDuenio duenio)
-{
-	int respuesta;
-
-	if (reserva.estado == 1)
-	{
-		printf("\n------------------------------------------------------------------------------------------------------------------------\n");
-		printf("\n%-20s %-20s %-20s %-20s %-20s %-20s\n", "ID ESTADIA", "NOMBRE PERRO", "RAZA", "NOMBRE DUEÑO", "TELEFONO", "FECHA");
-		printf("\n%-20d %-20s %-20s %-20s %-20d %d/%d/%d",	reserva.id , perro.nombre, perro.raza, duenio.nombre, duenio.telefono, reserva.fecha.dia , reserva.fecha.mes, reserva.fecha.anio );
-		printf("\n------------------------------------------------------------------------------------------------------------------------\n");
-		getInt (&respuesta, "\nDesea CONFIRMAR los datos de la estadia (0 = no / 1 = si)? : ", "Error. Elija una opcion (0 = no / 1 = si): ", 0 , 1);
-	}
-	return respuesta;
-}
-
-/**
- * @fn int estadia_reservar(sEstadia[], int, int, sPerro[], int, sDuenio[], int)
- * @brief realiza la reserva de una estadia
- *
- * @param reserva recibe un array sEstadia
- * @param tam recibe el tamanio de ese array sEstadia
- * @param ultimoId recibe el ultimo ID correspondiente a la estadia
- * @param listaPerros recibe un array sPerro
- * @param tamPerro recibe el tamanio del array sPerro
- * @param listaDuenios recibe un array sDuenio
- * @param tamDuenio recibe el tamanio de ese array sDuenio
- * @return retorna el ultimo ID actualizado si salio bien o -1 si hubo error
- */
-int estadia_reservar (sEstadia reserva[] , int tam , int ultimoId , sPerro listaPerros[] , int tamPerro, sDuenio listaDuenios[] , int tamDuenio)
-{
-	sEstadia aux;
-	int ret = -1;
-	int confirmacion;
-	int index;
-	int posicionIdPerro;
-	int posicionIdDuenio;
-	int posPerro;
-
-	if (reserva != NULL && listaPerros != NULL && listaDuenios != NULL)
-	{
-		if (estadia_buscarLugar (reserva , tam) != -1)
-		{
-			aux = estadia_pedirDatos (aux , ultimoId , listaPerros , tamPerro , listaDuenios, tamDuenio);
-			posicionIdPerro = perro_buscarCoincidenciaId(listaPerros, tamPerro, aux.idPerro);
-			posicionIdDuenio = duenio_buscarCoincidenciaId(listaDuenios, tamDuenio, aux.idDuenio);
-			printf("\nDatos de la estadia A CONFIRMAR:");
-			confirmacion = estadia_verificar (aux, listaPerros[posicionIdPerro], listaDuenios[posicionIdDuenio]);
-			if(confirmacion == 1)
-			{
-				index = estadia_buscarLugar (reserva , tam);
-				reserva[index] = aux;
-				reserva[index].estado = 1;
-				posPerro = perro_buscarCoincidenciaId(listaPerros, tamPerro, reserva[index].idPerro);
-				listaPerros[posPerro].contadorEstadia++;
-				ultimoId++;
-				ret = ultimoId;
-			}
-
-			else
-			{
-				printf("\nUsted ha cancelado la reserva.\n");
-			}
-		}
-
-		else
-		{
-			printf("\nNo hay lugar disponible para reservar.\n");
 		}
 	}
 	return ret;
