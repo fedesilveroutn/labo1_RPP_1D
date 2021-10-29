@@ -13,5 +13,7 @@ void nexo_mostrarEstadiasCompletas (sEstadia reservas[], int tamEstadias, sPerro
 void nexo_mostrarPerrosConDuenios (sPerro listaPerros[] , int tamPerros, sDuenio listaDuenios[], int tamDuenios);
 void nexo_mostrarPerrosConEstadias (sPerro listaPerros[], int tamPerros, sEstadia listaEstadias[], int tamEstadias);
 int nexo_existenciaEstadia ( sPerro listaPerros[] , int tam   );
+int nexo_contarAlanConEstadias (sDuenio listaDuenios[], int tamDuenios, sEstadia listaEstadias[], int tamEstadias );
+int nexo_listarEstadiasLuciasEnSegundaQuincena (sEstadia listaEstadias[], int tamEstadias, sDuenio listaDuenios[], int tamDuenios, sPerro listaPerros[], int tamPerros, int tamAux );
 
 #endif /* NEXO_H_ */

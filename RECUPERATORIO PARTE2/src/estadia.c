@@ -46,6 +46,7 @@ int estadia_reservar (sEstadia reserva[] , int tam , int ultimoId , sPerro lista
 	int posicionIdPerro;
 	int posicionIdDuenio;
 	int posPerro;
+	int posDuenio;
 
 	if (reserva != NULL && listaPerros != NULL && listaDuenios != NULL)
 	{
@@ -62,7 +63,9 @@ int estadia_reservar (sEstadia reserva[] , int tam , int ultimoId , sPerro lista
 				reserva[index] = aux;
 				reserva[index].estado = 1;
 				posPerro = perro_buscarCoincidenciaId(listaPerros, tamPerro, reserva[index].idPerro);
+				posDuenio = duenio_buscarCoincidenciaId(listaDuenios, tamDuenio, reserva[index].idDuenio );
 				listaPerros[posPerro].contadorEstadia++;
+				listaDuenios[posDuenio].contadorEstadia++;
 				ultimoId++;
 				ret = ultimoId;
 			}
@@ -355,6 +358,7 @@ int estadia_cancelar (sPerro perros[], int tamPerros, sEstadia reserva[], int ta
 
 				reserva[pos].estado = 0;
 				perros[posPerro].contadorEstadia--;
+				listaDuenios[posDuenio].contadorEstadia--;
 				ret = 0;
 			}
 			else

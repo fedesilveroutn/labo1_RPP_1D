@@ -20,9 +20,34 @@ int duenio_inicializar (sDuenio lista[], int tam)
 		for (i = 0; i < tam; i++)
 		{
 			lista[i].estado = 0;
+			duenio_inicializarContadorEstadia(lista, tam);
 		}
 		ret = 0;
 	}
+	return ret;
+}
+
+/**
+ * @fn int duenio_inicializarContadorEstadia(sDuenio[], int)
+ * @brief inicializa el campo contadorEstadia de un array sDuenio en 0
+ *
+ * @param listaDuenios
+ * @param tamDuenios
+ * @return
+ */
+int duenio_inicializarContadorEstadia (sDuenio listaDuenios[], int tamDuenios)
+{
+	int ret = -1;
+	int i;
+
+	if (listaDuenios != NULL)
+	{
+		for (i = 0; i < tamDuenios; i++)
+		{
+			listaDuenios[i].contadorEstadia = 0;
+		}
+	}
+
 	return ret;
 }
 
@@ -82,6 +107,7 @@ int duenio_cargar (sDuenio listaDuenios[], int tamDuenios, int ultimoIdDuenio)
 				index = duenio_buscarLugar (listaDuenios , tamDuenios);
 				listaDuenios[index] = aux;
 				listaDuenios[index].estado = 1;
+				listaDuenios[index].contadorEstadia = 0;
 				ultimoIdDuenio++;
 				ret = ultimoIdDuenio;
 				printf("\n***HA CARGADO LOS DATOS DEL DUEÑO EXITOSAMENTE!***");

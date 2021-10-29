@@ -131,6 +131,103 @@ int nexo_existenciaEstadia ( sPerro listaPerros[] , int tam   )
 	return ret;
 }
 
+/**
+ * @fn int nexo_contarAlanConEstadias(sDuenio, int, sEstadia, int)
+ * @brief recorre el array sDuenio y si el campo nombre es == "Alan" entonces se fija si tiene por lo menos una estadia,
+ * 		  si es que sí, aumenta el contador y luego lo retorna.
+ * @param listaDuenios
+ * @param tamDuenios
+ * @param listaEstadias
+ * @param tamEstadias
+ * @return Retorna el contador con la cantidad de estadias que tienen los duenios Alan o -1 si hay error.
+ */
+int nexo_contarAlanConEstadias (sDuenio listaDuenios[], int tamDuenios, sEstadia listaEstadias[], int tamEstadias )
+{
+	int i;
+	int contador = -1;
+
+	if ( listaDuenios != NULL && listaEstadias != NULL)
+	{
+		contador = 0;
+
+		for (i = 0; i < tamDuenios; i++)
+		{
+			if ( strcmp (listaDuenios[i].nombre , "Alan" ) == 0 || strcmp (listaDuenios[i].nombre , "alan" ) == 0)
+			{
+				if (listaDuenios[i].contadorEstadia > 0 )
+				{
+					contador++;
+				}
+			}
+		}
+	}
+	return contador;
+}
+
+/**
+ * @fn int nexo_listarEstadiasLuciasEnSegundaQuincena(sEstadia[], int, sDuenio[], int, sPerro[], int, int)
+ * @brief muestra aquellas estadías que cumplan con el requisito que el nombre sea == "Lucia/lucia" y que esten reservadas del 16-30 de noviembre
+ *
+ * @param listaEstadias
+ * @param tamEstadias
+ * @param listaDuenios
+ * @param tamDuenios
+ * @param listaPerros
+ * @param tamPerros
+ * @param tamAux
+ * @return retorna 0 si funciono o -1 si hubo error
+ */
+int nexo_listarEstadiasLuciasEnSegundaQuincena (sEstadia listaEstadias[], int tamEstadias, sDuenio listaDuenios[], int tamDuenios, sPerro listaPerros[], int tamPerros, int tamAux )
+{
+	int ret = -1;
+	int i;
+	sEstadia auxEstadiasLucia[tamAux] ;
+	int posicionDueniosLucia;
+	int contadorEstadiasLucia = 0;
+
+	if (listaEstadias != NULL && listaDuenios != NULL)
+	{
+		estadia_inicializar(auxEstadiasLucia, 20);
+
+		for ( i = 0; i < tamEstadias; i++ )
+		{
+			posicionDueniosLucia = duenio_buscarCoincidenciaId(listaDuenios, tamDuenios, listaEstadias[i].idDuenio );
+			if (posicionDueniosLucia != -1 )
+			{
+				if ( strcmp (listaDuenios[posicionDueniosLucia].nombre , "Lucia") == 0 || strcmp (listaDuenios[posicionDueniosLucia].nombre , "lucia") == 0)
+				{
+					if (listaEstadias[i].fecha.anio == 2021 && listaEstadias[i].fecha.mes == 11 && listaEstadias[i].fecha.dia > 15 )
+					{
+						auxEstadiasLucia[i] = listaEstadias[i];
+						auxEstadiasLucia[i].estado = 1;
+						contadorEstadiasLucia++;
+					}
+				}
+			}
+		}
+
+		if (contadorEstadiasLucia > 0 )
+		{
+			nexo_mostrarEstadiasCompletas(auxEstadiasLucia, 20 , listaPerros, tamPerros, listaDuenios, tamDuenios);
+			ret = 0;
+		}
+
+		else
+		{
+			printf("\nERROR. No se ha encontrado ninguna estadía reservada por un dueño Lucia");
+		}
+	}
+
+	return ret;
+}
+
+
+
+
+
+
+
+
 
 
 

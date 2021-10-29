@@ -24,7 +24,7 @@ int main(void) {
 	sDuenio duenios [TAM];
 	sEstadia reservas [TAM];
 
-	menu (reservas , TAM , perros, TAM , duenios, TAM , IDESTADIA , IDPERRO , IDDUENIO );
+	menu (reservas , TAM , perros, TAM , duenios, TAM , IDESTADIA , IDPERRO , IDDUENIO , TAM );
 	printf("\nFin del programa.");
 
 	return 0;

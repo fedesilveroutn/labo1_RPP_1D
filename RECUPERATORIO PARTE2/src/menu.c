@@ -19,7 +19,7 @@
  * @param uIdDuenio recibe el ultimo ID correspondiente a los duenios
  * @return retorna 0 si funciono o -1 si hubo error
  */
-int menu (sEstadia listaEstadias[], int tamEstadias , sPerro listaPerros[] , int tamPerros, sDuenio listaDuenios [], int tamDuenios , int uIdEstadia ,int uIdPerro,int uIdDuenio)
+int menu (sEstadia listaEstadias[], int tamEstadias , sPerro listaPerros[] , int tamPerros, sDuenio listaDuenios [], int tamDuenios , int uIdEstadia ,int uIdPerro,int uIdDuenio, int tamElementos)
 {
 	int ret = -1;
 	int opcion;
@@ -34,6 +34,7 @@ int menu (sEstadia listaEstadias[], int tamEstadias , sPerro listaPerros[] , int
 	int contadorPerros = 3;
 	int contadorDuenios = 5;
 	int contadorEstadias = 0;
+	int contadorAlanEstadia = 0;
 	int flagPerro;
 	int flagDuenio;
 	int flagEstadias;
@@ -67,7 +68,10 @@ int menu (sEstadia listaEstadias[], int tamEstadias , sPerro listaPerros[] , int
 					"\n6. Promedio de edad de los perros"
 					"\n7. Perro que tiene más estadias reservadas"
 					"\n8. Listado de perros con sus estadías diarias reservadas"
-					"\n9. SALIR"
+					"\n9. ALTA DE PERRO"
+					"\n10.La cantidad de dueños que se llaman Alan y que, a su vez, tienen al menos una estadía reservada"
+					"\n11.Listado de estadías realizadas por dueñas que se llaman Lucia y cuya fecha de reserva es durante la segunda quincena de noviembre 2021"
+					"\n12.SALIR"
 					"\n-------------------------------------------\n"
 					"Ingrese una opcion (1-9): ",
 					"ERROR."
@@ -80,9 +84,12 @@ int menu (sEstadia listaEstadias[], int tamEstadias , sPerro listaPerros[] , int
 					"\n6. Promedio de edad de los perros"
 					"\n7. Perro que tiene más estadias reservadas"
 					"\n8. Listado de perros con sus estadías diarias reservadas"
-					"\n9. SALIR"
+					"\n9. ALTA DE PERRO"
+					"\n10.La cantidad de dueños que se llaman Alan y que, a su vez, tienen al menos una estadía reservada"
+					"\n11.Listado de estadías realizadas por dueñas que se llaman Lucia y cuya fecha de reserva es durante la segunda quincena de noviembre 2021"
+					"\n12.SALIR"
 					"\n-------------------------------------------\n"
-					"Reingrese una opcion válida (1-9): ", 1 , 9);
+					"Reingrese una opcion válida (1-9): ", 1 , 12);
 
 			switch (opcion)
 			{
@@ -90,7 +97,7 @@ int menu (sEstadia listaEstadias[], int tamEstadias , sPerro listaPerros[] , int
 			case 1:
 
 				printf( "\n-------------------------------------------\nRESERVANDO UNA ESTADIA...\n");
-				getInt(&flagPerro,"\nDesea cargar un perro? (0 = no / 1 = si): ","ERROR. Reingrese una opcion válida (0 = no / 1 = si): ",0,1 );
+				/*getInt(&flagPerro,"\nDesea cargar un perro? (0 = no / 1 = si): ","ERROR. Reingrese una opcion válida (0 = no / 1 = si): ",0,1 );
 				if (flagPerro == 1)
 				{
 					auxUltimoIdPerro = perro_cargar (listaPerros, tamPerros, uIdPerro);
@@ -106,7 +113,7 @@ int menu (sEstadia listaEstadias[], int tamEstadias , sPerro listaPerros[] , int
 						printf("\nLA CARGA DEL PERRO NO SE HA REALIZADO");
 						systemPause("\nPresione una tecla para continuar...\n");
 					}
-				}
+				}*/
 
 				getInt (&flagDuenio,"\nDesea cargar un dueño? (0 = no / 1 = si): ",
 									"\n----------------------------------------------------------------\n"
@@ -385,13 +392,77 @@ int menu (sEstadia listaEstadias[], int tamEstadias , sPerro listaPerros[] , int
 
 				break;
 
+
 			case 9:
+
+				getInt(&flagPerro,"\nEstá segurx que quiere cargar un perro? (0 = no / 1 = si): ","ERROR. Reingrese una opcion válida (0 = no / 1 = si): ",0,1 );
+				if (flagPerro == 1)
+				{
+					auxUltimoIdPerro = perro_cargar (listaPerros, tamPerros, uIdPerro);
+					if (auxUltimoIdPerro != -1)
+					{
+						uIdPerro = auxUltimoIdPerro;
+						contadorPerros++;
+						systemPause("\nPresione una tecla para continuar...\n");
+					}
+
+					else
+					{
+						printf("\nLA CARGA DEL PERRO NO SE HA REALIZADO");
+						systemPause("\nPresione una tecla para continuar...\n");
+					}
+				}
+				break;
+
+
+			case 10:
+
+				if (contadorDuenios > 0)
+				{
+					contadorAlanEstadia = nexo_contarAlanConEstadias(listaDuenios, tamDuenios, listaEstadias, tamEstadias);
+					if (contadorAlanEstadia == -1 || contadorAlanEstadia == 0)
+					{
+						printf("\nERROR. No se encuentran dueños llamados Alan que tengan al menos una estadía reservada!");
+					}
+
+					else if (contadorAlanEstadia > 0 )
+					{
+						printf("\nCantidad de dueños llamados Alan que tienen al menos una estadía reservada: %d", contadorAlanEstadia);
+					}
+				}
+
+				else
+				{
+					printf("\nERROR. Para acceder a esta funcion debe haber cargado por lo menos un dueño!");
+				}
+
+
+				systemPause("\nPresione una tecla para continuar...\n");
+				break;
+
+
+			case 11:
+
+				if (contadorEstadias > 0)
+				{
+					nexo_listarEstadiasLuciasEnSegundaQuincena(listaEstadias, tamEstadias, listaDuenios, tamDuenios, listaPerros, tamPerros, tamElementos);
+				}
+
+				else
+				{
+					printf("\nERROR. Para acceder a esta funcion debe haber cargado por lo menos una estadía!");
+				}
+
+				systemPause("\nPresione una tecla para continuar...\n");
+				break;
+
+			case 12:
 					printf("\nSaliendo...\n");
 					break;
 
 			}
 
-		}while (opcion != 9);
+		}while (opcion != 12);
 
 	ret = 0;
 	}

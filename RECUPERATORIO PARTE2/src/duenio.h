@@ -12,10 +12,12 @@ typedef struct
 	char nombre [41];
 	int telefono;
 	int estado;
+	int contadorEstadia;
 
 }sDuenio;
 
 int duenio_inicializar (sDuenio lista[], int tam);
+int duenio_inicializarContadorEstadia (sDuenio listaDuenios[], int tamDuenios);
 int duenio_hardcodear (sDuenio lista[]);
 int duenio_cargar (sDuenio listaDuenios[], int tamDuenios, int ultimoIdDuenio);
 int duenio_buscarLugar(sDuenio listaDuenios[], int tamDuenios);

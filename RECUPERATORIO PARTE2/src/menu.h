@@ -12,6 +12,6 @@
 #define MENU_H_
 
 
-int menu (sEstadia listaEstadias[],int tamEstadias, sPerro listaPerros[], int tamPerrossDuenio, sDuenio listaDuenios[],int tamDuenios , int uIdEstadia , int uIdPerro, int uIdDuenio );
+int menu (sEstadia listaEstadias[],int tamEstadias, sPerro listaPerros[], int tamPerrossDuenio, sDuenio listaDuenios[],int tamDuenios , int uIdEstadia , int uIdPerro, int uIdDuenio, int tamElementos );
 
 #endif /* MENU_H_ */
