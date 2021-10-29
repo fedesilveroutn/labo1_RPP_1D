@@ -73,7 +73,7 @@ int menu (sEstadia listaEstadias[], int tamEstadias , sPerro listaPerros[] , int
 					"\n11.Listado de estadías realizadas por dueñas que se llaman Lucia y cuya fecha de reserva es durante la segunda quincena de noviembre 2021"
 					"\n12.SALIR"
 					"\n-------------------------------------------\n"
-					"Ingrese una opcion (1-9): ",
+					"Ingrese una opcion (1-12): ",
 					"ERROR."
 					"\n-------------------------------------------\n"
 					"\n1. RESERVAR ESTADIA"
@@ -89,7 +89,7 @@ int menu (sEstadia listaEstadias[], int tamEstadias , sPerro listaPerros[] , int
 					"\n11.Listado de estadías realizadas por dueñas que se llaman Lucia y cuya fecha de reserva es durante la segunda quincena de noviembre 2021"
 					"\n12.SALIR"
 					"\n-------------------------------------------\n"
-					"Reingrese una opcion válida (1-9): ", 1 , 12);
+					"Reingrese una opcion válida (1-12): ", 1 , 12);
 
 			switch (opcion)
 			{
